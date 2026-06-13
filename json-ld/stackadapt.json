@@ -1,0 +1,63 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "StackAdapt",
+  "url": "https://www.stackadapt.com",
+  "description": "StackAdapt is an AI-powered programmatic advertising platform with REST and GraphQL APIs for managing campaigns, ad groups, creatives, targeting segments, pixel tracking, and performance reporting across native, display, video, connected TV, audio, and digital out-of-home channels.",
+  "sameAs": [
+    "https://github.com/StackAdapt",
+    "https://www.linkedin.com/company/stackadapt",
+    "https://x.com/stackadapt"
+  ],
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "StackAdapt REST API",
+      "url": "https://docs.stackadapt.com/",
+      "description": "Read-only REST API for fetching reporting data across dimensions and metrics to analyze campaign performance."
+    },
+    {
+      "@type": "Offer",
+      "name": "StackAdapt GraphQL API",
+      "url": "https://docs.stackadapt.com/",
+      "description": "Full-featured GraphQL API for creating and managing programmatic advertising campaigns, ad groups, creatives, targeting segments, pixel tracking, and performance reporting."
+    },
+    {
+      "@type": "Offer",
+      "name": "StackAdapt Pixel API",
+      "url": "https://docs.stackadapt.com/",
+      "description": "Server-to-server API for conversion tracking and audience generation without requiring website pixel installation."
+    },
+    {
+      "@type": "Offer",
+      "name": "StackAdapt Data Taxonomy API",
+      "url": "https://docs.stackadapt.com/",
+      "description": "API for secure data sharing and audience synchronization with third-party platforms and data partners."
+    },
+    {
+      "@type": "Offer",
+      "name": "StackAdapt MCP Server",
+      "url": "https://docs.stackadapt.com/",
+      "description": "Model Context Protocol server enabling AI agents to interact with the StackAdapt platform programmatically via the GraphQL API."
+    }
+  ],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "url": "https://docs.stackadapt.com/"
+  },
+  "knowsAbout": [
+    "Programmatic Advertising",
+    "Digital Advertising",
+    "Campaign Management",
+    "Ad Tech",
+    "Demand-Side Platform",
+    "Native Advertising",
+    "Display Advertising",
+    "Video Advertising",
+    "Connected TV",
+    "Audience Targeting",
+    "Real-Time Bidding",
+    "Conversion Tracking",
+    "Performance Reporting"
+  ]
+}
