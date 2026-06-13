@@ -1,0 +1,62 @@
+name: StackAdapt FinOps
+description: Financial operations guidance for StackAdapt API usage and programmatic advertising spend management, including cost models, billing structures, and budget optimization strategies.
+url: https://www.stackadapt.com/plans-and-packages
+cost_model:
+  type: Media Spend / CPM Markup
+  description: StackAdapt does not charge hidden platform tech fees. Costs are driven by media spend through CPM (cost per mille), CPC (cost per click), and CPE (cost per engagement) bidding models.
+  fee_structure:
+    - type: Platform Fee
+      rate: "~15% of media spend or CPM markup (typical)"
+      notes: No hidden tech fees; competitive vs other DSPs that charge platform percentage on top of media
+    - type: Media Spend
+      rate: Variable (real-time bidding)
+      notes: Actual CPM/CPC/CPE rates determined by auction dynamics and targeting parameters
+
+billing:
+  payment_methods:
+    - Credit card (Basic tier)
+    - Net terms (Grow, Scale, Accelerate tiers)
+    - Custom terms (Enterprise)
+  invoicing: Monthly or custom billing cycle depending on tier
+
+spend_tiers:
+  - tier: Small / Self-Serve
+    monthly_estimate: "$500 - $4,000/month"
+    notes: Includes platform access and media spend; credit card accepted
+  - tier: Mid-Market
+    monthly_estimate: "$4,000 - $30,000/month"
+    notes: Managed services available; net terms
+  - tier: Enterprise
+    monthly_estimate: "$30,000 - $250,000+/month"
+    notes: Custom pricing and terms; dedicated strategic team
+
+implementation_costs:
+  - segment: Small Business
+    implementation: "~$2,000"
+    timeline: "2-4 weeks"
+  - segment: Mid-Market
+    implementation: "~$10,000"
+    timeline: "4-8 weeks"
+  - segment: Enterprise
+    implementation: "$50,000+"
+    timeline: "2-6 months"
+
+cost_optimization:
+  - strategy: Start self-serve to understand platform before engaging managed services
+  - strategy: Ensure campaign budgets are sufficient to generate meaningful programmatic scale
+  - strategy: Migrate write operations from deprecated REST API to GraphQL to avoid future disruption
+  - strategy: Use CPM bidding for awareness campaigns; CPC/CPE for performance-driven objectives
+  - strategy: Leverage Dynamic Creative Optimization (Scale tier+) to improve ROAS
+  - strategy: Utilize reporting APIs to monitor spend and performance programmatically
+
+api_cost_notes:
+  - "API access is included with platform accounts; no separate API licensing fee disclosed"
+  - "GraphQL API requires a separate API key from the REST API"
+  - "MCP Server access available for AI agent integrations at no additional disclosed cost"
+  - "Contact StackAdapt sales for API access terms specific to your account"
+
+references:
+  - name: Plans and Packages
+    url: https://www.stackadapt.com/plans-and-packages
+  - name: API Terms and Conditions
+    url: https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions

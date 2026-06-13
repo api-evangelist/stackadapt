@@ -1,0 +1,49 @@
+name: StackAdapt API Rate Limits
+description: StackAdapt enforces rate limits across all API offerings to maintain platform stability and ensure fair access for all users. Exceeding rate limits returns HTTP 429 Too Many Requests.
+url: https://docs.stackadapt.com/
+apis:
+  - name: REST API
+    description: Read-only reporting API for fetching campaign performance data across dimensions and metrics.
+    authentication: X-AUTHORIZATION header with API_KEY
+    rate_limit:
+      error_code: 429
+      notes: Rate limits enforced; specific numeric thresholds not publicly disclosed. Contact StackAdapt for details.
+    deprecation_notice: REST API write operations are officially deprecated. Migrate write integrations to the GraphQL API.
+
+  - name: GraphQL API
+    description: Full read/write API for creating and managing programmatic advertising campaigns, ad groups, creatives, segments, and reporting.
+    authentication: Authorization header with Bearer token (separate API key from REST)
+    rate_limit:
+      error_code: 429
+      notes: Rate limits enforced to maintain platform stability. Specific thresholds available in authenticated documentation at docs.stackadapt.com/graphql/rate-limits.
+    sdk:
+      name: "@stackadapt/pa-typescript-sdk"
+      url: https://www.npmjs.com/package/@stackadapt/pa-typescript-sdk
+      language: TypeScript
+
+  - name: Pixel API
+    description: Server-to-server conversion tracking and audience generation without website pixel installation.
+    authentication: Universal pixel ID in request parameters
+    rate_limit:
+      error_code: 429
+      notes: Rate limits enforced; thresholds not publicly disclosed.
+
+  - name: Data Taxonomy API
+    description: Secure data sharing and audience synchronization with third-party platforms.
+    authentication: Authorization header with Bearer token
+    rate_limit:
+      error_code: 429
+      notes: Rate limits enforced; thresholds not publicly disclosed.
+
+  - name: MCP Server
+    description: Model Context Protocol portal enabling AI agents (Claude, ChatGPT) to interact with the StackAdapt platform via the GQL API.
+    authentication: Bearer token
+    rate_limit:
+      notes: Subject to underlying GraphQL API rate limits.
+
+general_notes:
+  - "All StackAdapt APIs return HTTP 429 when rate limits are exceeded"
+  - "Specific rate limit thresholds are documented in the authenticated developer portal at docs.stackadapt.com"
+  - "API Terms prohibit using an unreasonable amount of bandwidth or creating an unreasonable number of entities"
+  - "StackAdapt may revoke API access with 30 days notice for any reason"
+  - "Contact StackAdapt support for rate limit details specific to your account tier"

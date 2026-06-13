@@ -1,0 +1,72 @@
+name: StackAdapt Plans and Pricing
+description: StackAdapt offers self-serve and managed service tiers for programmatic advertising with no hidden tech fees. Pricing is based on media spend or CPM markup rather than fixed platform fees.
+url: https://www.stackadapt.com/plans-and-packages
+plans:
+  - name: Basic
+    description: Self-serve platform access for independent marketers managing their own campaigns with academy support.
+    pricing_model: Custom / Media Spend
+    payment: Credit card
+    features:
+      - Self-serve campaign management
+      - Native, display, video, and CTV ad formats
+      - Audience targeting
+      - Real-time bidding
+      - Basic reporting
+      - StackAdapt Academy access
+      - Email automation (add-on, 12 months/year)
+      - Marketing orchestration (limited)
+      - Dynamic creative optimization (limited)
+
+  - name: Grow (Bronze)
+    description: Account services tier with expanded capabilities and dedicated support for growing advertisers.
+    pricing_model: Custom / Media Spend
+    payment: Net terms available
+    features:
+      - All Basic features
+      - Account services support
+      - Email automation (12 months/year included)
+      - Expanded campaign management
+      - Platform optimization assistance
+
+  - name: Scale (Silver)
+    description: Enhanced optimization and reporting for scaling advertisers requiring deeper platform support.
+    pricing_model: Custom / Media Spend
+    payment: Net terms
+    features:
+      - All Grow features
+      - Enhanced optimization tools
+      - Custom analytics
+      - Unlimited marketing orchestration
+      - Unlimited dynamic creative optimization
+      - Dedicated account and platform support
+
+  - name: Accelerate (Gold)
+    description: High-performance growth tier with proactive support and advanced cross-channel capabilities.
+    pricing_model: Custom / Media Spend
+    payment: Net terms
+    features:
+      - All Scale features
+      - Proactive campaign support
+      - Advanced targeting and segmentation
+      - Cross-channel attribution
+      - Creative support
+
+  - name: Enterprise (Platinum)
+    description: Custom partnership with tailored solutions for large-scale advertisers and agencies.
+    pricing_model: Custom
+    payment: Custom terms
+    features:
+      - All Accelerate features
+      - Custom partnership agreement
+      - Tailored platform solutions
+      - Dedicated strategic team
+      - Advanced integrations and API access
+      - Custom reporting and analytics
+      - SLA guarantees
+
+notes:
+  - "StackAdapt does not charge hidden tech fees; most DSPs charge a percentage of media spend as a platform fee"
+  - "Typical fee structure runs approximately 15% of media spend or CPM markup"
+  - "Pricing varies by campaign budget, ad formats, and service level"
+  - "Minimum monthly spend recommended for programmatic scale"
+  - "Self-serve users can transition to managed services as needs evolve"
