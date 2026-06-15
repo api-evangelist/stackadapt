@@ -1,7 +1,7 @@
 {
   "provider": "stackadapt",
   "blogURL": "https://www.stackadapt.com/resources/blog",
-  "fetched": "2026-06-13",
+  "fetched": "2026-06-14T20:42:17Z",
   "posts": [
     {
       "title": "What is programmatic direct mail? A beginner's guide for marketers in 2026",
@@ -63,5 +63,13 @@
       "url": "https://www.stackadapt.com/resources/blog/great-place-to-work-best-workplaces-canada-2026",
       "date": "2026-04-01"
     }
-  ]
+  ],
+  "repo": "stackadapt",
+  "feeds": [
+    {
+      "source": "https://www.linkedin.com/company/stackadapt",
+      "error": "HTTPError"
+    }
+  ],
+  "post_count": 0
 }
