@@ -4,7 +4,7 @@ description: StackAdapt is an AI-powered programmatic advertising platform with 
   and GraphQL APIs for managing campaigns, ad groups, creatives, targeting segments,
   pixel tracking, and performance reporting across native, display, video, connected
   TV, audio, and digital out-of-home channels.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/stackadapt/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -30,7 +30,7 @@ apis:
   description: Read-only REST API for fetching reporting data across dimensions and
     metrics to analyze campaign performance. Write operations are deprecated; use
     the GraphQL API for write operations.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
   baseURL: https://api.stackadapt.com/service/v2
   tags:
@@ -48,7 +48,7 @@ apis:
   description: Full-featured GraphQL API for creating and managing programmatic advertising
     campaigns, ad groups, creatives, targeting segments, pixel tracking, and performance
     reporting. The primary API for write operations on the StackAdapt platform.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
   baseURL: https://api.stackadapt.com/graphql
   tags:
@@ -70,7 +70,7 @@ apis:
   name: StackAdapt Pixel API
   description: Server-to-server API for conversion tracking and audience generation
     without requiring website pixel installation.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
   baseURL: https://pixel.stackadapt.com
   tags:
@@ -85,7 +85,7 @@ apis:
   name: StackAdapt Data Taxonomy API
   description: API for secure data sharing and audience synchronization with third-party
     platforms and data partners.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
   baseURL: https://api.stackadapt.com
   tags:
@@ -100,7 +100,7 @@ apis:
   name: StackAdapt MCP Server
   description: Model Context Protocol server enabling AI agents (Claude, ChatGPT)
     to interact with the StackAdapt platform programmatically via the GraphQL API.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
   baseURL: https://api.stackadapt.com
   tags:
