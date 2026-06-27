@@ -1,75 +1,21 @@
 {
-  "provider": "stackadapt",
-  "blogURL": "https://www.stackadapt.com/resources/blog",
-  "fetched": "2026-06-14T20:42:17Z",
-  "posts": [
-    {
-      "title": "What is programmatic direct mail? A beginner's guide for marketers in 2026",
-      "url": "https://www.stackadapt.com/resources/blog/programmatic-direct-mail",
-      "date": "2026-06-03"
-    },
-    {
-      "title": "E-commerce advertising strategies: How to drive sales, traffic, and growth",
-      "url": "https://www.stackadapt.com/resources/blog/ecommerce-advertising-strategies",
-      "date": "2026-06-02"
-    },
-    {
-      "title": "Everything you need to know about advertising on ChatGPT right now",
-      "url": "https://www.stackadapt.com/resources/blog/how-to-advertise-on-chatgpt",
-      "date": "2026-05-28"
-    },
-    {
-      "title": "What is cross-channel attribution? An in-depth guide for marketers in 2026",
-      "url": "https://www.stackadapt.com/resources/blog/cross-channel-attribution",
-      "date": "2026-05-14"
-    },
-    {
-      "title": "StackAdapt unveils next evolution of AI-powered proactive marketing at Conversion 2026",
-      "url": "https://www.stackadapt.com/resources/blog/conversion-2026",
-      "date": "2026-05-12"
-    },
-    {
-      "title": "What is LLM advertising and why could it reshape digital marketing?",
-      "url": "https://www.stackadapt.com/resources/blog/llm-advertising",
-      "date": "2026-05-07"
-    },
-    {
-      "title": "A strategic guide to marketing orchestration",
-      "url": "https://www.stackadapt.com/resources/blog/marketing-orchestration",
-      "date": "2026-04-30"
-    },
-    {
-      "title": "Display advertising: What it is, how it works, and best practices",
-      "url": "https://www.stackadapt.com/resources/blog/what-is-display-advertising",
-      "date": "2026-04-23"
-    },
-    {
-      "title": "StackAdapt named 2026 Hermes Creative Awards Platinum winner",
-      "url": "https://www.stackadapt.com/resources/blog/hermes-creative-award-2026-platinum-winner",
-      "date": "2026-04-20"
-    },
-    {
-      "title": "How to create a first-party data strategy in digital marketing",
-      "url": "https://www.stackadapt.com/resources/blog/first-party-data-strategy",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "The New Playbook for AI Ad Targeting",
-      "url": "https://www.stackadapt.com/resources/blog/ai-advertising-targeting",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "StackAdapt Recognized as One of the 2026 Best Workplaces in Canada",
-      "url": "https://www.stackadapt.com/resources/blog/great-place-to-work-best-workplaces-canada-2026",
-      "date": "2026-04-01"
-    }
-  ],
   "repo": "stackadapt",
   "feeds": [
     {
+      "source": "https://www.stackadapt.com/resources/blog/feed/",
+      "feed_url": "https://www.stackadapt.com/resources/blog/feed/",
+      "title": "",
+      "saved": 1,
+      "method": "feed"
+    },
+    {
       "source": "https://www.linkedin.com/company/stackadapt",
-      "error": "HTTPError"
+      "feed_url": "https://www.linkedin.com/company/stackadapt",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 0
+  "fetched": "2026-06-27T12:03:07Z",
+  "post_count": 3
 }
