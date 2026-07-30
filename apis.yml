@@ -4,7 +4,19 @@ description: StackAdapt is an AI-powered programmatic advertising platform with 
   and GraphQL APIs for managing campaigns, ad groups, creatives, targeting segments,
   pixel tracking, and performance reporting across native, display, video, connected
   TV, audio, and digital out-of-home channels.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Paid
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stackadapt.png
 url: https://raw.githubusercontent.com/api-evangelist/stackadapt/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
