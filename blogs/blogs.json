@@ -10,9 +10,12 @@
     },
     {
       "source": "https://www.linkedin.com/company/stackadapt",
-      "error": "HTTPError"
+      "feed_url": "https://www.linkedin.com/company/stackadapt",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "fetched": "2026-08-01T15:49:00Z",
-  "post_count": 13
+  "fetched": "2026-08-06T14:08:46Z",
+  "post_count": 15
 }
