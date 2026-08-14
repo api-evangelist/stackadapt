@@ -19,7 +19,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stackadapt.png
 url: https://raw.githubusercontent.com/api-evangelist/stackadapt/refs/heads/main/apis.yml
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 tags:
 - Programmatic Advertising
@@ -78,13 +78,19 @@ apis:
     url: https://www.npmjs.com/package/@stackadapt/pa-typescript-sdk
   - url: graphql/stackadapt-graphql.md
     type: GraphQL
+  - type: GraphQLSchema
+    url: graphql/stackadapt-schema.graphql
+  - type: DataModel
+    url: data-model/stackadapt-data-model.yml
+  - type: Webhooks
+    url: asyncapi/stackadapt-webhooks.yml
 - aid: stackadapt:pixel-api
   name: StackAdapt Pixel API
   description: Server-to-server API for conversion tracking and audience generation
     without requiring website pixel installation.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
-  baseURL: https://pixel.stackadapt.com
+  baseURL: https://tags.srv.stackadapt.com
   tags:
   - Pixel
   - Conversion Tracking
@@ -93,6 +99,15 @@ apis:
   properties:
   - type: Documentation
     url: https://docs.stackadapt.com/
+  - type: Components
+    url: components/stackadapt-components.yml
+  x-base-url-note: >-
+    Corrected 2026-08-13. The previous baseURL, https://pixel.stackadapt.com, does not resolve
+    (DNS NXDOMAIN). The real host is https://tags.srv.stackadapt.com/, read from StackAdapt's own
+    first-party Google Tag Manager server-side tag template
+    (https://github.com/StackAdapt/stackadapt-gtm-server-side-pixel, template.tpl:
+    "let sa_url = 'https://tags.srv.stackadapt.com/' + pixel_type"). Paths are /rt, /drt, /lal,
+    /conv and /saq_pxl.
 - aid: stackadapt:data-taxonomy-api
   name: StackAdapt Data Taxonomy API
   description: API for secure data sharing and audience synchronization with third-party
@@ -114,7 +129,7 @@ apis:
     to interact with the StackAdapt platform programmatically via the GraphQL API.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.stackadapt.com/
-  baseURL: https://api.stackadapt.com
+  baseURL: https://mcp.stackadapt.com/
   tags:
   - MCP
   - AI Agents
@@ -124,6 +139,14 @@ apis:
   properties:
   - type: Documentation
     url: https://docs.stackadapt.com/
+  - type: MCPServer
+    url: mcp/stackadapt-mcp.yml
+  x-base-url-note: >-
+    Corrected 2026-08-13. The previous baseURL, https://api.stackadapt.com, is the GraphQL/REST
+    host, not the MCP endpoint. The hosted MCP server answers at the ROOT of
+    https://mcp.stackadapt.com/ — probed live, returning HTTP 401 with a conformant
+    WWW-Authenticate Bearer challenge and RFC 9728 protected-resource metadata at
+    /.well-known/oauth-protected-resource. https://mcp.stackadapt.com/mcp returns 404.
 common:
 - type: DomainSecurity
   url: security/stackadapt-domain-security.yml
@@ -147,6 +170,91 @@ common:
   url: rate-limits/stackadapt-rate-limits.yml
 - type: FinOps
   url: finops/stackadapt-finops.yml
+- type: GitHubOrganization
+  url: https://github.com/StackAdapt
+- type: DeveloperPortal
+  url: https://docs.stackadapt.com/
+- type: APIReference
+  url: https://docs.stackadapt.com/v2
+- type: GettingStarted
+  url: https://www.stackadapt.com/get-started-with-api
+- type: SignUp
+  url: https://www.stackadapt.com/sign-up
+- type: Support
+  url: https://www.stackadapt.com/academy
+- type: TermsOfService
+  url: https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.stackadapt.com/legal-document-centre/platform-and-services-privacy-policy
+- type: LLMsTxt
+  url: llms/stackadapt-llms.txt
+- type: MCPServer
+  url: mcp/stackadapt-mcp.yml
+- type: WellKnown
+  url: well-known/stackadapt-well-known.yml
+- type: Packages
+  url: packages/stackadapt-packages.yml
+- type: SDKs
+  url: packages/stackadapt-packages.yml
+- type: Authentication
+  url: authentication/stackadapt-authentication.yml
+- type: OAuthScopes
+  url: scopes/stackadapt-scopes.yml
+- type: Conventions
+  url: conventions/stackadapt-conventions.yml
+- type: ErrorCatalog
+  url: errors/stackadapt-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/stackadapt-lifecycle.yml
+- type: Deprecation
+  url: https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions
+- type: Conformance
+  url: conformance/stackadapt-conformance.yml
+- type: Compliance
+  url: https://www.stackadapt.com/trust-and-security-center
+- type: TrustCenter
+  url: https://www.stackadapt.com/trust-and-security-center
+- type: VulnerabilityDisclosure
+  url: security/stackadapt-vulnerability-disclosure.yml
+- type: Security
+  url: https://www.stackadapt.com/trust-and-security-center
+- type: Sandbox
+  url: sandbox/stackadapt-sandbox.yml
+- type: Components
+  url: components/stackadapt-components.yml
+- type: DataModel
+  url: data-model/stackadapt-data-model.yml
+- type: Webhooks
+  url: asyncapi/stackadapt-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    Real first-party surface found and captured — a hosted MCP server at
+    https://mcp.stackadapt.com/ with full RFC 9728/8414 OAuth discovery, a maintained llms.txt,
+    a published Trust and Security Center, and an official npm SDK. Two gaps remain and both are
+    StackAdapt's to close: there is no OpenAPI on any host (the REST v2 API has no machine-readable
+    contract at all), and docs.stackadapt.com serves "User-agent: * / Disallow: /", so the
+    developer reference, any changelog, the webhook payload schemas and the sandbox test values
+    are not publicly readable by any crawler or agent. StackAdapt's own llms.txt acknowledges
+    this: "Do not assume developer documentation is crawlable by all agents."
+  evidence:
+  - url: https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://www.stackadapt.com/llms.txt
+    status: 200
+  - url: https://docs.stackadapt.com/robots.txt
+    status: 200
+  - url: https://api.stackadapt.com/openapi.json
+    status: 404
+  checked: '2026-08-13'
