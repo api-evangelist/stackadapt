@@ -1,6 +1,20 @@
 name: StackAdapt Plans and Pricing
 description: StackAdapt offers self-serve and managed service tiers for programmatic advertising with no hidden tech fees. Pricing is based on media spend or CPM markup rather than fixed platform fees.
 url: https://www.stackadapt.com/plans-and-packages
+generated: '2026-08-13'
+method: searched
+source: https://www.stackadapt.com/plans-and-packages
+plan_count: 5
+pricing_published: false
+pricing_note: >-
+  No price, quota or overage figure is published for any tier. StackAdapt's own llms.txt states
+  this plainly — "Do not infer public pricing from third-party sources. Specific pricing is not
+  published publicly; use the Plans and Packages page for packaging context and request a demo
+  for pricing details." The tiers below are the packaging StackAdapt names; the fee percentages
+  and spend bands recorded in finops/stackadapt-finops.yml come from market reporting, not from
+  StackAdapt, and must not be read as published prices. There is no API-specific plan: API
+  access is an account entitlement requested at
+  https://www.stackadapt.com/get-started-with-api, not a purchasable tier.
 plans:
   - name: Basic
     description: Self-serve platform access for independent marketers managing their own campaigns with academy support.

@@ -1,0 +1,62 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://mcp.stackadapt.com/.well-known/oauth-protected-resource (RFC 9728) and
+  https://api.stackadapt.com/.well-known/oauth-authorization-server (RFC 8414)
+docs: null
+note: >-
+  StackAdapt publishes no OpenAPI, so these scopes are NOT derived from a spec — they are read
+  verbatim from the two machine-readable OAuth discovery documents StackAdapt serves. No public
+  scopes/permissions reference page exists: docs.stackadapt.com disallows all crawlers in its
+  robots.txt, so the descriptions below are inferred from the scope names and their resource,
+  not quoted from StackAdapt documentation. Treat the descriptions as ours and the scope
+  strings as theirs.
+
+schemes:
+- name: MCPOAuth
+  source: https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+  resource: https://mcp.stackadapt.com/
+  authorization_server: https://www.stackadapt.com/
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.stackadapt.com/oauth/authorize
+    tokenUrl: https://www.stackadapt.com/oauth/token
+  - flow: clientCredentials
+    tokenUrl: https://www.stackadapt.com/oauth/token
+  code_challenge_methods: [S256, plain]
+  dynamic_client_registration: https://www.stackadapt.com/oauth/register
+
+scopes:
+- scope: graphql-public:read
+  description: Read access to the StackAdapt GraphQL Public API surface via the MCP resource.
+  flows: [authorizationCode, clientCredentials]
+  sources:
+  - https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+  - https://api.stackadapt.com/.well-known/oauth-authorization-server
+  description_provenance: inferred-from-scope-name
+- scope: graphql-public:write
+  description: Write access to the StackAdapt GraphQL Public API surface via the MCP resource.
+  flows: [authorizationCode, clientCredentials]
+  sources:
+  - https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+  description_provenance: inferred-from-scope-name
+  note: >-
+    Advertised by the MCP protected-resource metadata but NOT by the authorization server
+    metadata, whose scopes_supported lists only graphql-public:read. The two documents
+    disagree; a client should expect the authorization server to be the binding constraint.
+
+divergence:
+  authorization_server_scopes_supported: [graphql-public:read]
+  protected_resource_scopes_supported: [graphql-public:read, graphql-public:write]
+  note: >-
+    Recorded as observed. This is a real inconsistency between StackAdapt's RFC 8414 and
+    RFC 9728 documents, not a harvesting artefact — both were fetched anonymously on
+    2026-08-13 and both returned 200.
+
+summary:
+  scope_count: 2
+  granularity: coarse
+  note: >-
+    Two scopes cover the entire GraphQL surface (55 root queries and 97 root mutations in
+    graphql/stackadapt-schema.graphql). There is no per-resource or per-product scoping, so a
+    read token sees every campaign, advertiser, segment and pixel the account can reach.

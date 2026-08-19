@@ -1,0 +1,92 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.stackadapt.com/llms.txt,
+  https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions,
+  graphql/stackadapt-schema.graphql, and live host probes
+
+versioning:
+  scheme: mixed
+  rest:
+    scheme: uri-path
+    current: v2
+    base: https://api.stackadapt.com/service/v2
+    docs: https://docs.stackadapt.com/v2
+  graphql:
+    scheme: unversioned-evolving
+    endpoint: https://api.stackadapt.com/graphql
+    cadence: weekly
+    evidence: >-
+      StackAdapt's llms.txt: "the public API schema is updated frequently (weekly), and
+      endpoints and integration guidance may change" and "prefer the live developer docs over
+      memorized values".
+  note: >-
+    There is no dated or numbered version train on the GraphQL API. A weekly-changing
+    unversioned schema with no published changelog means a consumer has no way to diff one
+    week against the next without re-introspecting — and introspection is auth-gated.
+
+deprecation:
+  policy_url: https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions
+  revocation_notice_days: 30
+  evidence: >-
+    API Terms and Conditions: "StackAdapt may revoke the API Key and terminate Client's access
+    to the API upon 30 days' prior written notice for any reason."
+  forced_upgrade: >-
+    API Terms: updates are provided at StackAdapt's sole discretion, StackAdapt may require
+    clients to adopt the newest version, and "Updates may adversely affect how the
+    Applications communicate with the StackAdapt Services."
+  sunset_header: unknown
+  deprecated_surfaces:
+  - surface: StackAdapt REST API v2 — write operations
+    status: deprecated
+    replacement: https://api.stackadapt.com/graphql
+    migration_reference: V2-REST-to-GraphQL migration reference (docs.stackadapt.com)
+    evidence: >-
+      StackAdapt's llms.txt: "The REST API is read-only. Use the GraphQL API for write
+      operations, and follow the V2-REST-to-GraphQL migration reference in the current docs."
+      and "Do not use deprecated REST write-operation examples."
+    note: >-
+      Downstream data platforms (Fivetran, Supermetrics, Funnel, Improvado) all migrated their
+      StackAdapt connectors to GraphQL during 2025-2026 and state that legacy REST keys stop
+      working after the switch. That is corroboration, not the primary source; the primary
+      source is StackAdapt's own llms.txt.
+
+deprecated_operations: []
+deprecated_operations_note: >-
+  The GraphQL schema in graphql/stackadapt-schema.graphql carries no @deprecated directives on
+  root Query or Mutation fields, so no field-level deprecations could be derived. Deprecation
+  at StackAdapt is expressed at the API-surface level (REST writes) rather than per operation.
+
+sla:
+  url: null
+  uptime_target: null
+  evidence: >-
+    The API Terms provide the API "as is" and explicitly disclaim any warranty that it will
+    "operate without interruption" or "achieve any intended result." No SLA or uptime target
+    is published for the API.
+  platform_continuity: >-
+    The Trust and Security Center states RTOs and RPOs are defined for key platform services
+    and the continuity plan is tested at least annually, but publishes no numbers.
+
+status_page:
+  url: null
+  probed:
+  - {url: 'https://status.stackadapt.com/', result: 'DNS NXDOMAIN'}
+  - {url: 'https://status.stackadapt.io/', result: 'DNS NXDOMAIN'}
+  - {url: 'https://stackadapt.statuspage.io/', status: 200, result: 'redirects to the Atlassian Statuspage marketing site — not a StackAdapt status page'}
+  note: >-
+    No public status page found. Recorded as a verified absence: no StatusPage pointer is
+    emitted in apis.yml.
+
+changelog:
+  url: null
+  note: >-
+    No public, crawlable changelog or release-notes page was found. docs.stackadapt.com
+    disallows all user agents in robots.txt, so any release notes published there are not
+    publicly readable. No changelog/ artifact is written rather than guess at entries.
+
+support:
+  channel: Account Manager / StackAdapt support
+  evidence: >-
+    API Terms limit support to "access to the API Documentation and reasonable assistance with
+    initial integration and usage."

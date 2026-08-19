@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/StackAdapt/stackadapt-gtm-server-side-pixel,
+  https://github.com/StackAdapt/stackadapt-gtm-client-side-pixel
+note: >-
+  StackAdapt ships no embeddable dashboard, element library or web-component set. What it does
+  publish as first-party client-side integration artifacts are two Google Tag Manager tag
+  templates — one for web containers, one for server containers — plus the universal pixel they
+  wrap. These are the client-side surface a developer installs; they are distinct from the
+  TypeScript SDK catalogued in packages/.
+
+families:
+- name: Google Tag Manager tag templates
+  kind: tag-template
+  loader: Google Tag Manager (template gallery)
+  components:
+  - name: StackAdapt server-side pixel
+    repo: https://github.com/StackAdapt/stackadapt-gtm-server-side-pixel
+    container: server
+    description: >-
+      Implements retargeting, conversion tracking and lookalike targeting from a GTM server
+      container, in both universal-event and standalone formats.
+    endpoint: https://tags.srv.stackadapt.com/
+    tag_types:
+    - {type: rt, purpose: retargeting, identifier_param: sid}
+    - {type: drt, purpose: direct retargeting, identifier_param: sid}
+    - {type: lal, purpose: lookalike, identifier_param: sid}
+    - {type: conv, purpose: conversion, identifier_param: cid}
+    - {type: saq_pxl, purpose: universal pixel, identifier_param: uid}
+    parameters_forwarded: [gtm_ss, ip_fwd, url, ref, title, utm_source, engage_time, user_id, 'sa_conv_data_*']
+    source: template.tpl in the repository above
+    last_updated: '2026-07-19'
+  - name: StackAdapt client-side pixel
+    repo: https://github.com/StackAdapt/stackadapt-gtm-client-side-pixel
+    container: web
+    description: Web-container GTM tag template for the StackAdapt pixel.
+    endpoint: https://tags.srv.stackadapt.com/
+    last_updated: '2025-11-05'
+  distribution: >-
+    Both templates are distributed through the GTM template gallery from their GitHub
+    repositories under the Google Tag Manager gallery terms. They are unversioned — see
+    packages/stackadapt-packages.yml.
+
+not_found:
+- embeddable dashboards
+- hosted/prebuilt UI surfaces
+- web components / custom elements
+- React or Vue component libraries
+- embedded reporting iframes

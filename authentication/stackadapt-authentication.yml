@@ -1,0 +1,101 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://api.stackadapt.com/.well-known/oauth-authorization-server (RFC 8414),
+  https://mcp.stackadapt.com/.well-known/oauth-protected-resource (RFC 9728),
+  live 401 challenges from https://api.stackadapt.com/graphql and https://mcp.stackadapt.com/,
+  https://www.stackadapt.com/llms.txt, and graphql/stackadapt-graphql.md in this repo
+docs: https://docs.stackadapt.com/
+note: >-
+  Derived without an OpenAPI — StackAdapt publishes no OpenAPI on any host (see x-coverage in
+  apis.yml). Every scheme below is either read from a machine-readable discovery document the
+  provider serves, or observed in a live unauthenticated response.
+
+summary:
+  types: [apiKey, http, oauth2]
+  api_key_in: [header]
+  oauth2_flows: [authorizationCode, clientCredentials]
+  key_separation: >-
+    The REST API and the GraphQL API use SEPARATE API keys. StackAdapt's own migration
+    guidance (and every downstream connector that documents the change) states the legacy
+    REST key does not work against the GraphQL API.
+
+schemes:
+- name: RestApiKey
+  type: apiKey
+  in: header
+  parameter_name: X-Authorization
+  applies_to: https://api.stackadapt.com/service/v2
+  method: searched
+  source: graphql/stackadapt-graphql.md, https://www.stackadapt.com/llms.txt
+  note: >-
+    Read-only reporting REST API (v2). Write operations are deprecated in favour of GraphQL.
+
+- name: GraphQLBearer
+  type: http
+  scheme: bearer
+  applies_to: https://api.stackadapt.com/graphql
+  method: probed
+  source: live POST to https://api.stackadapt.com/graphql
+  note: >-
+    Static GraphQL API key issued by StackAdapt (Account Settings -> API Integration, or via
+    an account manager). Observed behaviour without a token: HTTP 401 with body
+    {"errors":[{"message":"Schema introspection requires authentication.","extensions":{"traceId":"..."}}]}
+    — introspection itself is gated, not only data access.
+
+- name: MCPOAuth
+  type: oauth2
+  applies_to: https://mcp.stackadapt.com/
+  method: probed
+  source: https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+  resource: https://mcp.stackadapt.com/
+  authorization_server: https://www.stackadapt.com/
+  dynamic_client_registration: true
+  registration_endpoint: https://www.stackadapt.com/oauth/register
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.stackadapt.com/oauth/authorize
+    tokenUrl: https://www.stackadapt.com/oauth/token
+    refreshUrl: https://www.stackadapt.com/oauth/token
+    pkce: [S256, plain]
+    scopes:
+      graphql-public:read: Read access to the GraphQL Public API surface
+      graphql-public:write: Write access to the GraphQL Public API surface
+  - flow: clientCredentials
+    tokenUrl: https://www.stackadapt.com/oauth/token
+    scopes:
+      graphql-public:read: Read access to the GraphQL Public API surface
+      graphql-public:write: Write access to the GraphQL Public API surface
+  token_endpoint_auth_methods: [client_secret_basic, client_secret_post]
+  revocation_endpoint: https://www.stackadapt.com/oauth/revoke
+  introspection_endpoint: https://www.stackadapt.com/oauth/introspect
+  challenge: >-
+    WWW-Authenticate: Bearer error="invalid_token",
+    error_description="Missing Authorization header",
+    resource_metadata="https://mcp.stackadapt.com/.well-known/oauth-protected-resource/"
+
+- name: PixelIdentifier
+  type: apiKey
+  in: query
+  parameter_name: sid | cid | uid
+  applies_to: https://tags.srv.stackadapt.com/
+  method: derived
+  source: https://github.com/StackAdapt/stackadapt-gtm-server-side-pixel (template.tpl)
+  note: >-
+    The server-to-server pixel surface is not bearer-authenticated. The caller identifies
+    itself with a StackAdapt-issued pixel identifier passed as a query parameter — sid for
+    retargeting/lookalike endpoints, cid for conversion, uid for the universal pixel.
+
+environments:
+- name: production
+  issuer: https://api.stackadapt.com
+  authorization_server_metadata: https://api.stackadapt.com/.well-known/oauth-authorization-server
+- name: sandbox
+  issuer: https://sandbox.stackadapt.com
+  authorization_server_metadata: https://sandbox.stackadapt.com/.well-known/oauth-authorization-server
+  note: Sandbox runs its own isolated OAuth issuer; production tokens are not portable to it.
+
+token_introspection_in_api:
+  field: Query.tokenInfo
+  source: graphql/stackadapt-schema.graphql
+  note: The GraphQL API exposes a tokenInfo query so a caller can inspect its own token.

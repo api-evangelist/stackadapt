@@ -1,0 +1,235 @@
+generated: '2026-08-13'
+method: derived
+source: graphql/stackadapt-schema.graphql
+note: >-
+  Derived from the GraphQL SDL captured in this repo (introspected 2026-06-14; 1,147 types).
+  StackAdapt publishes no OpenAPI, so there is no spec-side $ref graph — every relationship
+  below is a real field on a real type in that SDL, with the field name recorded in `via`.
+  Only the core advertising entity graph is modelled; the SDL's 707 object types include large
+  leaf clusters (geo, CTV genre, DOOH venue, political district taxonomies) that are lookup
+  vocabularies rather than entities and are summarised instead of enumerated.
+
+root_entity: Advertiser
+
+entities:
+- name: Advertiser
+  kind: type
+  key: id (ID!)
+  description: The brand or client account that owns campaign groups, segments, pixels and profile lists.
+  notable_fields: [name, description, isArchived, dealIds, domainExclusions, userMetadata, stats]
+
+- name: CampaignGroup
+  kind: type
+  key: id (ID!)
+  description: >-
+    The budgeting and pacing container beneath an advertiser. Carries budget type, allocation,
+    rollover, revenue type/pricing, frequency caps, flights and timezone.
+  notable_fields: [name, campaignGroupStatus, budgetType, budgetAllocation, budgetRollover, revenueType, revenuePricing, pacing, timezone, freqCapLimit, freqCapExpiry, isArchived]
+
+- name: Campaign
+  kind: interface
+  key: id
+  description: >-
+    A channel-specific buy inside a campaign group. Polymorphic — the concrete type is the
+    channel (native, display, video, CTV, audio, DOOH, programmatic linear TV), discriminated
+    by __typename, with channelType as the human-readable form.
+  notable_fields: [campaignStatus, channelType, campaignGoal, creativeTacticFallback, freqCapLimit, createdAt]
+
+- name: Ad
+  kind: interface
+  key: id
+  description: >-
+    The line item / creative placement under a campaign. Also polymorphic by channel
+    (AudioAdInput, CtvAdInput, DisplayAdInput, DoohAdInput, NativeAdInput, VideoAdInput on the
+    write side).
+
+- name: LibraryAd
+  kind: interface
+  description: Reusable creative held in the ad library, independent of any one campaign.
+
+- name: CampaignFlight
+  kind: type
+  description: A dated budget window under a campaign or campaign group.
+
+- name: CampaignAudience
+  kind: type
+  description: The audience/targeting bundle attached to a campaign.
+
+- name: CustomSegment
+  kind: interface
+  description: >-
+    Advertiser-built audience. Concrete variants in the mutation surface include CRM, IP,
+    device, ISP, location-based, intersection, combined, ABM, NPI and topic-audience segments,
+    each with a WithPii twin where personal data is uploaded.
+
+- name: Pixel
+  kind: interface
+  description: >-
+    Tracking pixel. Variants are retargeting (rt), conversion (conv), lookalike (lal) and the
+    universal pixel; each fires against tags.srv.stackadapt.com.
+  notable_fields: [passbacks, passbackValues]
+
+- name: PixelFire
+  kind: interface
+  description: An individual pixel firing event.
+
+- name: ProfileList
+  kind: type
+  description: A CDP profile list owned by an advertiser; populated via upsertProfiles / profile uploads.
+
+- name: Webhook
+  kind: type
+  description: An outbound event subscription. See asyncapi/stackadapt-webhooks.yml.
+
+- name: ByodDeal
+  kind: type
+  description: A Bring-Your-Own-Deal programmatic deal attached to a campaign group.
+
+- name: InventoryPackage
+  kind: type
+  description: A curated supply package attachable at advertiser or campaign-group level.
+
+- name: AdTag
+  kind: type
+  description: Third-party ad tag / VAST tracker attached to a creative.
+
+- name: DeliveryRecord
+  kind: type-family
+  description: >-
+    Reporting records at three grains — AdDeliveryRecord, CampaignDeliveryRecord,
+    AdvertiserDeliveryRecord — each with a Connection and an async twin query.
+
+- name: BrandLiftStudy
+  kind: type
+  description: Brand lift measurement study.
+
+- name: CampaignForecast
+  kind: type
+  description: Reach/budget forecast result for a campaign, produced by the schedule-then-poll forecast flow.
+
+relationships:
+- from: Advertiser
+  to: CampaignGroup
+  kind: has_many
+  via: CampaignGroup.advertiser (inverse)
+- from: CampaignGroup
+  to: Advertiser
+  kind: belongs_to
+  via: CampaignGroup.advertiser
+- from: CampaignGroup
+  to: CampaignFlight
+  kind: has_many
+  via: CampaignGroup.flights
+- from: CampaignGroup
+  to: ByodDeal
+  kind: has_many
+  via: CampaignGroup.byodDeals
+- from: CampaignGroup
+  to: InventoryPackage
+  kind: has_many
+  via: CampaignGroup.inventoryPackages
+- from: Campaign
+  to: CampaignGroup
+  kind: belongs_to
+  via: Campaign.campaignGroup
+- from: Campaign
+  to: Advertiser
+  kind: belongs_to
+  via: Campaign.advertiser
+- from: Campaign
+  to: Ad
+  kind: has_many
+  via: Campaign.ads
+- from: Campaign
+  to: CampaignAudience
+  kind: has_one
+  via: Campaign.audience
+- from: Campaign
+  to: CampaignFlight
+  kind: has_many
+  via: Campaign.flights
+- from: Campaign
+  to: CampaignFlight
+  kind: has_one
+  via: Campaign.currentFlight
+- from: Campaign
+  to: CreativeTactic
+  kind: has_many
+  via: Campaign.creativeTactics
+- from: Campaign
+  to: BidFactor
+  kind: has_many
+  via: Campaign.bidFactors
+- from: Campaign
+  to: CustomField
+  kind: has_many
+  via: Campaign.customFields
+- from: Campaign
+  to: CampaignGoal
+  kind: has_one
+  via: Campaign.campaignGoal
+- from: Campaign
+  to: DaaCampaign
+  kind: has_one
+  via: Campaign.daaCampaign
+- from: Advertiser
+  to: ProfileList
+  kind: has_many
+  via: Advertiser.profileLists
+- from: Advertiser
+  to: FeedAPICatalogFile
+  kind: has_many
+  via: Advertiser.feedApiCatalogFiles
+- from: Advertiser
+  to: InventoryPackage
+  kind: has_many
+  via: Advertiser.inventoryPackages
+- from: Advertiser
+  to: ProfileProperty
+  kind: has_many
+  via: Advertiser.cdpProfilePropertiesConnection
+- from: Advertiser
+  to: DeliveryStatsRecord
+  kind: has_one
+  via: Advertiser.stats
+- from: Pixel
+  to: PixelPassback
+  kind: has_many
+  via: Pixel.passbacks
+
+polymorphism:
+  interfaces: 18
+  unions: 15
+  discriminator: __typename
+  note: >-
+    Campaign, Ad, LibraryAd, Pixel, CustomSegment and AbmAudience are interfaces, not concrete
+    types. A client MUST use inline fragments on __typename to read channel-specific fields.
+    Campaign.channelType is documented in the schema as the human-readable form and __typename
+    as the precise comparison — a real trap for generated clients that assume flat objects.
+
+scalars:
+- {name: 'ISO8601Date', note: ISO 8601 date}
+- {name: 'ISO8601DateTime', note: ISO 8601 datetime}
+- {name: 'MoneyValue', note: 'Decimal monetary value transported as a string, e.g. "100.57"'}
+- {name: 'BigInt', note: Non-fractional signed whole number encoded as a string to survive 32-bit clients}
+- {name: 'Time', note: '%H:%M:%S transported as a string'}
+- {name: 'JSON', note: 'ECMA-404 JSON blob; used by userMetadata and passbackValues'}
+
+lookup_vocabularies:
+  note: >-
+    Large enum/lookup clusters exposed as root queries rather than entities — geos,
+    politicalDistricts, carriers, ctvGenres, ctvProperties, ctvPublishers, ctvTargetAudiences,
+    doohScreenVenueTypes, supplySources, thirdPartySegments, tieredBrandCategories,
+    inventoryPackages, formatPricedSegments. 141 enum types in total.
+
+counts:
+  total_types: 1147
+  object_types: 707
+  input_types: 251
+  enums: 141
+  interfaces: 18
+  unions: 15
+  scalars: 15
+  root_queries: 55
+  root_mutations: 97
+  connection_types: 102

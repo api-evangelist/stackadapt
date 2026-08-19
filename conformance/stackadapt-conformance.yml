@@ -1,0 +1,151 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live probes of StackAdapt's OAuth discovery documents and MCP endpoint, plus
+  graphql/stackadapt-schema.graphql and https://www.stackadapt.com/trust-and-security-center
+
+standards:
+- id: oauth2
+  name: OAuth 2.0 / 2.1 (RFC 6749)
+  conforms: true
+  evidence: >-
+    Authorization, token, revocation and introspection endpoints published at
+    https://www.stackadapt.com/.well-known/oauth-authorization-server; grant types
+    authorization_code, client_credentials, refresh_token.
+
+- id: rfc8414-as-metadata
+  name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  conforms: true
+  evidence: >-
+    HTTP 200 application/json at /.well-known/oauth-authorization-server on
+    api.stackadapt.com, www.stackadapt.com and sandbox.stackadapt.com.
+
+- id: rfc9728-protected-resource-metadata
+  name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+  conforms: true
+  evidence: >-
+    HTTP 200 at https://mcp.stackadapt.com/.well-known/oauth-protected-resource naming the
+    resource, its authorization_servers and scopes_supported; the 401 challenge carries the
+    matching resource_metadata parameter in WWW-Authenticate.
+
+- id: rfc7591-dynamic-client-registration
+  name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+  conforms: true
+  evidence: registration_endpoint https://www.stackadapt.com/oauth/register advertised in AS metadata.
+
+- id: rfc7636-pkce
+  name: Proof Key for Code Exchange (RFC 7636)
+  conforms: true
+  evidence: 'code_challenge_methods_supported: ["plain","S256"]'
+  note: >-
+    Advertising the "plain" method alongside S256 is permitted by RFC 7636 but discouraged by
+    OAuth 2.1 and by the MCP authorization spec, which require S256.
+
+- id: rfc6750-bearer
+  name: OAuth 2.0 Bearer Token Usage (RFC 6750)
+  conforms: true
+  evidence: >-
+    Observed 401 with a conformant WWW-Authenticate challenge:
+    Bearer error="invalid_token", error_description="Missing Authorization header".
+
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  evidence: >-
+    Hosted Streamable HTTP MCP server at https://mcp.stackadapt.com/ (JSON-RPC 2.0 over POST,
+    Mcp-Session-Id exposed via Access-Control-Expose-Headers), authorized per the MCP
+    authorization spec. Generally available 2026-04-21.
+  note: Tool manifest is auth-gated; conformance of the tool layer was not verifiable anonymously.
+
+- id: graphql
+  name: GraphQL (June 2018 spec / Relay conventions)
+  conforms: true
+  evidence: >-
+    graphql/stackadapt-schema.graphql — 1,147 types, Relay-style Connection/Edge/PageInfo
+    pagination across 102 connection types, standard {"errors":[{"message":...}]} envelope.
+
+- id: relay-cursor-connections
+  name: Relay Cursor Connections Specification
+  conforms: true
+  evidence: >-
+    PageInfo with startCursor/endCursor/hasNextPage/hasPreviousPage; first/last/after/before
+    arguments; *Connection types additionally expose totalCount.
+
+- id: oidc
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every host.
+
+- id: rfc9457-problem-details
+  name: Problem Details for HTTP APIs (RFC 9457)
+  conforms: false
+  evidence: >-
+    Errors are returned as the GraphQL errors array, or as flat OAuth-style JSON
+    ({"error":"invalid_token",...}) from the MCP endpoint. No application/problem+json observed.
+
+- id: rfc9116-security-txt
+  name: security.txt
+  conforms: false
+  evidence: 404 on /.well-known/security.txt across all four hosts.
+
+- id: rfc8594-sunset-header
+  name: Sunset HTTP Header
+  conforms: unknown
+  evidence: >-
+    Not observable anonymously; no unauthenticated endpoint returns a 200 whose headers could
+    carry Sunset or Deprecation.
+
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document served on api.stackadapt.com, docs.stackadapt.com,
+    www.stackadapt.com or any probed path.
+
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: 404 on /.well-known/agent-card.json and /.well-known/agent.json on all four hosts.
+
+- id: llms-txt
+  name: llms.txt
+  conforms: true
+  evidence: >-
+    https://www.stackadapt.com/llms.txt — HTTP 200, well-formed llms.txt with H1, blockquote
+    summary and sectioned link lists; self-dated 2026-08-07 and maintained by StackAdapt's
+    content, marketing, documentation and API teams.
+
+compliance_programs:
+- id: soc2-type2
+  conforms: true
+  evidence: https://www.stackadapt.com/trust-and-security-center
+- id: soc1-type2
+  conforms: true
+  evidence: https://www.stackadapt.com/trust-and-security-center
+- id: pci-dss
+  conforms: true
+  evidence: https://www.stackadapt.com/trust-and-security-center
+- id: iso-27001-2022
+  conforms: aligned
+  evidence: StackAdapt states program ALIGNMENT with ISO/IEC 27001:2022, not certification.
+- id: nist-csf
+  conforms: aligned
+  evidence: https://www.stackadapt.com/trust-and-security-center
+- id: eu-us-dpf
+  conforms: true
+  evidence: Certified under EU-U.S. DPF, UK Extension and Swiss-U.S. DPF.
+
+industry:
+- id: iab-tcf
+  name: IAB Transparency and Consent Framework
+  conforms: unknown
+  evidence: >-
+    StackAdapt maintains the open-source Go implementation of the IAB Consent String specs
+    (https://github.com/StackAdapt/iabconsent, v1.1 and v2), which evidences engineering
+    investment in the framework but is not itself a conformance claim.
+- id: openrtb-prebid
+  name: OpenRTB / Prebid
+  conforms: true
+  evidence: >-
+    StackAdapt maintains forks of prebid-server and Prebid.js in its GitHub organisation and
+    is a Prebid.org participant; header-bidding participation is core to the DSP.

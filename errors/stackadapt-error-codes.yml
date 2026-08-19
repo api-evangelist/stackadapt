@@ -1,0 +1,125 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live unauthenticated responses from https://api.stackadapt.com/graphql,
+  https://mcp.stackadapt.com/ and https://api.stackadapt.com/,
+  plus graphql/stackadapt-schema.graphql and
+  https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions
+format: graphql-errors
+note: >-
+  StackAdapt publishes no OpenAPI and no public error reference — docs.stackadapt.com disallows
+  all crawlers. Every entry below was either OBSERVED on a live anonymous request or read from
+  the GraphQL schema in this repo. There is no invented error code in this file, and the
+  catalogue is therefore partial by construction: authenticated-only failure modes are not
+  represented.
+
+envelopes:
+- name: graphql-transport-error
+  applies_to: https://api.stackadapt.com/graphql
+  shape: '{"errors":[{"message": string, "extensions": {"traceId": string}}]}'
+  http_status_meaningful: true
+  note: >-
+    StackAdapt returns real HTTP status codes rather than the common GraphQL habit of 200-plus-
+    errors. Agents can branch on status.
+- name: graphql-user-error
+  applies_to: https://api.stackadapt.com/graphql (mutations)
+  shape: '{"data":{"<mutation>":{"userErrors":[{"message": string, "path": [string]}]}}}'
+  http_status_meaningful: false
+  note: >-
+    Validation failures ride inside a 200 OK mutation payload. THE MOST IMPORTANT FAILURE MODE
+    ON THIS API — a client that only inspects the top-level errors array will treat a rejected
+    mutation as a success.
+- name: oauth-error
+  applies_to: https://mcp.stackadapt.com/
+  shape: '{"error": string, "error_description": string}'
+  http_status_meaningful: true
+  note: RFC 6750 style, accompanied by a conformant WWW-Authenticate challenge.
+
+problems:
+- status: 401
+  surface: graphql
+  code: null
+  title: Schema introspection requires authentication
+  observed_body: '{"errors":[{"message":"Schema introspection requires authentication.","extensions":{"traceId":"63602fa3e36adca613de5b276a750d35"}}]}'
+  cause: Introspection or any query attempted without a valid GraphQL bearer token.
+  remediation: >-
+    Send Authorization: Bearer <GraphQL API key>. The key is issued from Account Settings ->
+    API Integration or by a StackAdapt account manager, and is NOT the REST v2 key.
+  evidence: {url: 'https://api.stackadapt.com/graphql', method: POST, fetched: '2026-08-13'}
+
+- status: 400
+  surface: graphql
+  code: null
+  title: Unexpected parameter in the request body
+  observed_body: '{"errors":[{"message":"Unexpected parameter \"jsonrpc\" in the request body."}]}'
+  cause: >-
+    A body key outside the accepted GraphQL request shape (query / variables / operationName).
+    Observed by POSTing a JSON-RPC envelope to the GraphQL endpoint.
+  remediation: Send only query, variables and operationName.
+  note: >-
+    The GraphQL endpoint validates body keys strictly and rejects unknown ones rather than
+    ignoring them. Notably this 400 carries NO traceId — trace identifiers appear on 401 but
+    not on this 400, so error metadata is not uniform.
+  evidence: {url: 'https://api.stackadapt.com/graphql/mcp', method: POST, fetched: '2026-08-13'}
+
+- status: 401
+  surface: mcp
+  code: invalid_token
+  title: Missing Authorization header
+  observed_body: '{"error":"invalid_token","error_description":"Missing Authorization header"}'
+  www_authenticate: >-
+    Bearer error="invalid_token", error_description="Missing Authorization header",
+    resource_metadata="https://mcp.stackadapt.com/.well-known/oauth-protected-resource/"
+  cause: MCP request without an OAuth access token.
+  remediation: >-
+    Follow the resource_metadata link, register a client at
+    https://www.stackadapt.com/oauth/register, and obtain a token for scope
+    graphql-public:read (and graphql-public:write where the AS grants it).
+  evidence: {url: 'https://mcp.stackadapt.com/', method: 'GET and POST', fetched: '2026-08-13'}
+
+- status: 404
+  surface: rest
+  code: null
+  title: Not found
+  cause: Unknown path on api.stackadapt.com. Returns an HTML error page, not JSON.
+  remediation: Verify the path against the REST v2 reference.
+  note: >-
+    api.stackadapt.com serves the platform application's HTML shell for unknown paths, and for
+    some paths (/llms.txt, /robots.txt) returns HTTP 200 with that shell. A client must not
+    treat 200 as proof of a resource on this host.
+  evidence: {url: 'https://api.stackadapt.com/service/v2', method: GET, http_status: 404, fetched: '2026-08-13'}
+
+- status: 429
+  surface: all
+  code: null
+  title: Too Many Requests
+  cause: Rate limit exceeded.
+  remediation: >-
+    Back off and retry. No Retry-After or RateLimit-* header has been observed, and no numeric
+    threshold is published, so the retry interval must be chosen by the client.
+  provenance: documented
+  evidence: rate-limits/stackadapt-rate-limits.yml
+
+mutation_user_errors:
+  type: UserError
+  fields:
+  - {name: message, type: 'String!', description: Reason the input is invalid}
+  - {name: path, type: '[String!]', description: Path to the mutation argument causing this error}
+  applies_to: >-
+    Every root mutation payload in graphql/stackadapt-schema.graphql exposes
+    userErrors: [UserError!]! — 97 root mutations.
+  source: graphql/stackadapt-schema.graphql
+
+schema_error_enums:
+- name: UploadStatus.UPLOAD_ERROR
+  source: graphql/stackadapt-schema.graphql
+  note: Terminal state for asynchronous profile/segment uploads.
+
+gaps:
+- >-
+  No numeric or symbolic error-code registry is published. Errors are human-readable strings,
+  so a client cannot branch on a stable code — only on HTTP status and message text.
+- >-
+  Authenticated failure modes (authorization denials, quota exhaustion, validation classes)
+  could not be enumerated: every credentialed path is gated and the documentation host
+  disallows crawlers.

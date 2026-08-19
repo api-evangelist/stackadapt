@@ -1,0 +1,88 @@
+generated: '2026-08-13'
+method: searched
+probe: true
+url: https://www.stackadapt.com/trust-and-security-center
+name: StackAdapt Trust and Security Center
+note: >-
+  Found via https://www.stackadapt.com/main/page-sitemap.xml. The mechanical probe
+  (probe-security-programs.py) missed it because it checks trust.<domain>, security.<domain>,
+  /trust, /security and /compliance — StackAdapt uses none of those paths, and
+  trust.stackadapt.com / security.stackadapt.com do not resolve.
+
+certifications:
+- name: SOC 1 Type II
+  status: audited
+  evidence: '"independent third-party audits conducted annually, including SOC 1 (Type II) and SOC 2 (Type II) examinations"'
+- name: SOC 2 Type II
+  status: audited
+  evidence: '"independent third-party audits conducted annually, including SOC 1 (Type II) and SOC 2 (Type II) examinations"'
+- name: PCI DSS
+  status: compliant
+  evidence: '"StackAdapt maintains compliance with the Payment Card Industry Data Security Standard (PCI DSS)"'
+  note: >-
+    Card data is handled by Stripe; StackAdapt states it does not store full payment card
+    numbers on its own systems.
+- name: ISO/IEC 27001:2022
+  status: aligned-not-certified
+  evidence: '"Our information security program is designed to align with industry-recognized frameworks and best practices, including ISO/IEC 27001:2022"'
+  note: >-
+    IMPORTANT: the page claims ALIGNMENT with ISO/IEC 27001:2022, not certification against
+    it. Third-party vendor-profile sites describe StackAdapt as "ISO 27001 compliant"; the
+    company's own page does not make that claim. Recorded as StackAdapt states it.
+- name: NIST Cybersecurity Framework (CSF)
+  status: aligned
+  evidence: '"...and the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF)"'
+
+privacy_frameworks:
+- name: EU-U.S. Data Privacy Framework (EU-U.S. DPF)
+  status: certified
+  evidence: '"StackAdapt complies with the EU-U.S. Data Privacy Framework (EU-U.S. DPF) ... as administered by the U.S. Department of Commerce"'
+- name: UK Extension to the EU-U.S. DPF
+  status: certified
+- name: Swiss-U.S. Data Privacy Framework
+  status: certified
+
+audit_reports:
+  available: on-request
+  channel: StackAdapt Account Manager
+  evidence: '"Audit reports can be requested from your StackAdapt Account Manager."'
+  note: No self-serve trust portal, no NDA-gated document room, no automated report download.
+
+program:
+  penetration_testing: annual
+  vulnerability_management: documented
+  incident_response_plan: true
+  incident_notification_sla: 48 hours to affected clients
+  business_continuity: RTO/RPO defined, tested at least annually
+  encryption: in transit and at rest
+  access_control: role-based, least privilege, regular access reviews, Zero Trust via IdP
+  background_checks: all new employees where local law permits
+  vendor_security_policy: true
+  subprocessors:
+    maintained: true
+    published_list_url: null
+    note: The page states an approved-subprocessor list is maintained but does not link one.
+  infrastructure: Fully cloud-hosted on AWS across multiple availability zones; no on-premise infrastructure.
+
+contact:
+  team: Information Security Team
+  email: security@stackadapt.com
+  evidence: '"Contact us at security@stackadapt.com for any questions you may have."'
+
+related_documents:
+- name: Data Processing Addendum
+  url: https://www.stackadapt.com/legal-document-centre/data-processing-addendum
+- name: Platform and Services Privacy Policy
+  url: https://www.stackadapt.com/legal-document-centre/platform-and-services-privacy-policy
+- name: Acceptable Use Policy
+  url: https://www.stackadapt.com/legal-document-centre/acceptable-use-policy
+- name: API Terms and Conditions
+  url: https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions
+- name: Modern Slavery Statement
+  url: https://www.stackadapt.com/legal-document-centre/modern-slavery-statement
+
+evidence:
+- source: https://www.stackadapt.com/trust-and-security-center
+  http_status: 200
+  fetched: '2026-08-13'
+  keywords: [soc 1 type ii, soc 2 type ii, pci dss, iso/iec 27001:2022, nist csf, data privacy framework, penetration testing, incident response]

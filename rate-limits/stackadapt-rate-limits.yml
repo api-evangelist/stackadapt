@@ -1,6 +1,27 @@
 name: StackAdapt API Rate Limits
 description: StackAdapt enforces rate limits across all API offerings to maintain platform stability and ensure fair access for all users. Exceeding rate limits returns HTTP 429 Too Many Requests.
 url: https://docs.stackadapt.com/
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions and live probes of
+  https://api.stackadapt.com/graphql and https://mcp.stackadapt.com/ on 2026-08-13
+limit_count: 0
+status_on_exhaustion: 429
+response_headers: []
+headers_note: >-
+  NO rate-limit response headers were observed on any anonymous request. No X-RateLimit-*, no
+  RateLimit-* (RFC 9331 draft), and no Retry-After. An agent therefore has no runtime signal at
+  all — it cannot see remaining quota, cannot see a reset time, and on a 429 is not told how long
+  to wait. Backoff must be chosen client-side.
+published_thresholds: none
+thresholds_note: >-
+  limit_count is 0 because StackAdapt publishes no numeric threshold on any public page. The only
+  public statement of the limit is qualitative, in the API Terms and Conditions: clients must not
+  "use an unreasonable amount of bandwidth, create an unreasonable number of entities, objects,
+  or records." Any per-account figures live behind docs.stackadapt.com, which serves
+  "User-agent: * / Disallow: /", and behind account management. This is a measured zero, not an
+  unchecked field.
 apis:
   - name: REST API
     description: Read-only reporting API for fetching campaign performance data across dimensions and metrics.

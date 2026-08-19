@@ -1,0 +1,96 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org metadata endpoints, npm registry search, and the StackAdapt GitHub
+  organisation (https://github.com/StackAdapt)
+
+packages:
+- language: typescript
+  registry: npm
+  name: "@stackadapt/pa-typescript-sdk"
+  url: https://www.npmjs.com/package/@stackadapt/pa-typescript-sdk
+  install: npm install @stackadapt/pa-typescript-sdk
+  official: true
+  version: 0.73.0
+  published: '2025-11-26'
+  release_count: 88
+  covers: https://api.stackadapt.com/graphql
+  description: >-
+    StackAdapt's Public API SDK — typed access to the GraphQL Public API with built-in
+    workflows, types and general endpoints.
+  note: >-
+    First-party: published under the @stackadapt npm scope. Still pre-1.0 after 88 releases,
+    and the latest release (0.73.0, 2025-11-26) is roughly nine months stale as of this pass,
+    while StackAdapt's own llms.txt states the public API schema is updated WEEKLY. The SDK
+    therefore trails the contract it wraps. No repository field is set in the package
+    metadata, so the source is not public.
+
+- language: javascript
+  registry: gtm-template-gallery
+  name: stackadapt-gtm-server-side-pixel
+  url: https://github.com/StackAdapt/stackadapt-gtm-server-side-pixel
+  install: Add via Google Tag Manager server container template gallery
+  official: true
+  version: null
+  published: null
+  note: >-
+    First-party Google Tag Manager SERVER-side tag template for the StackAdapt pixel
+    (retargeting, conversion, lookalike). Distributed through the GTM template gallery from
+    this repository, not through a package registry, so there is no metadata endpoint to
+    query and no published version to record — a consumer installing from the gallery gets
+    whatever is on the default branch. Repository last updated 2026-07-19.
+
+- language: javascript
+  registry: gtm-template-gallery
+  name: stackadapt-gtm-client-side-pixel
+  url: https://github.com/StackAdapt/stackadapt-gtm-client-side-pixel
+  install: Add via Google Tag Manager web container template gallery
+  official: true
+  version: null
+  published: null
+  note: >-
+    First-party Google Tag Manager CLIENT-side tag template for the StackAdapt pixel. Same
+    unpinned gallery distribution as the server-side template — no registry, no version.
+    Repository last updated 2025-11-05.
+
+registries_checked:
+- registry: npm
+  result: one first-party scoped package (@stackadapt/*)
+- registry: pypi
+  result: none
+  probed: [stackadapt, stackadapt-sdk]
+  status: 404
+- registry: rubygems
+  result: none
+  probed: [stackadapt]
+  status: 404
+- registry: crates.io
+  result: none
+  probed: [stackadapt]
+  status: 404
+- registry: packagist
+  result: none
+  probed: [stackadapt/stackadapt]
+  status: 404
+- registry: maven-central
+  result: none
+- registry: nuget
+  result: none
+- registry: pkg.go.dev
+  result: none
+
+not_first_party:
+- name: "@blotoutio/providers-stack-adapt-sdk"
+  url: https://www.npmjs.com/package/@blotoutio/providers-stack-adapt-sdk
+  note: Blotout EdgeTag provider shim, not published by StackAdapt.
+- name: "@segment/analytics-browser-actions-stackadapt"
+  url: https://www.npmjs.com/package/@segment/analytics-browser-actions-stackadapt
+  note: Segment destination action, not published by StackAdapt.
+- name: darkgoldblade01/StackAdapt-PHP-API
+  url: https://github.com/darkgoldblade01/StackAdapt-PHP-API
+  note: Community PHP wrapper of the deprecated REST API. Not on Packagist.
+
+summary:
+  official_count: 3
+  registry_published_official_count: 1
+  languages: [typescript, javascript]

@@ -1,0 +1,84 @@
+generated: '2026-08-13'
+method: derived
+source: graphql/stackadapt-schema.graphql
+spec_type: none
+note: >-
+  StackAdapt publishes NO AsyncAPI document — /asyncapi.yaml and /asyncapi.json were not served
+  on any host, and no event catalogue page is publicly crawlable. It does, however, ship a real
+  first-party webhook surface, and that surface is fully described by the GraphQL schema already
+  captured in this repo: a Webhook entity, a WebhookEvent enum, a webhooks query and three
+  management mutations. Everything below is read from that SDL. Nothing is invented — in
+  particular, no payload schema is recorded, because the schema describes the SUBSCRIPTION
+  object and not the body StackAdapt POSTs to the subscriber URL.
+
+surface: webhooks
+transport: https
+delivery: outbound HTTP POST to a subscriber-supplied URL
+
+events:
+- name: CAMPAIGN_CREATION
+  title: Campaign Creation
+  description: Fired when a campaign is created.
+  source: 'graphql/stackadapt-schema.graphql#WebhookEvent'
+- name: CAMPAIGN_UPDATES
+  title: Campaign Updates
+  description: Fired when a campaign is updated.
+  source: 'graphql/stackadapt-schema.graphql#WebhookEvent'
+- name: CREATIVE_CREATION
+  title: Creative Creation
+  description: Fired when a creative is created.
+  source: 'graphql/stackadapt-schema.graphql#WebhookEvent'
+
+event_count: 3
+
+subscription_object:
+  type: Webhook
+  source: 'graphql/stackadapt-schema.graphql#Webhook'
+  fields:
+  - {name: id, type: 'ID!', description: ID of the webhook}
+  - {name: name, type: 'String!', description: Name of the webhook}
+  - {name: event, type: 'WebhookEvent!', description: Event type of webhook}
+  - {name: url, type: 'String!', description: 'URL that the webhook will be sent to. Must start with https://'}
+  - {name: active, type: 'Boolean!', description: Whether the webhook is active}
+  - {name: disableMail, type: 'Boolean!', description: Whether to disable the mail delivery when webhook is present, if applicable}
+  - {name: createdAt, type: 'ISO8601DateTime!'}
+  - {name: updatedAt, type: 'ISO8601DateTime!'}
+
+management:
+  list: 'Query.webhooks -> WebhookConnection (Relay cursor pagination, totalCount)'
+  create: 'Mutation.createWebhook(input: CreateWebhookInput!): CreateWebhookPayload!'
+  update: 'Mutation.updateWebhook(input: UpdateWebhookInput!): UpdateWebhookPayload!'
+  delete: 'Mutation.deleteWebhook(input: DeleteWebhookInput!): DeleteWebhookPayload!'
+  source: graphql/stackadapt-schema.graphql
+
+transport_requirements:
+  https_only: true
+  evidence: 'CreateWebhookInput.url — "The url that the webhook send to. Must start with https://."'
+
+related_event_surfaces:
+- name: Data Hub Webhook API
+  graphql_field: 'Query.dataHubWebhookApi / Mutation.dataHubWebhookApi'
+  input: DataHubWebhookApiUpsertDataHubProfilesRequestInput
+  direction: inbound
+  note: >-
+    An INBOUND webhook receiver, not an outbound event feed — a namespace for pushing profile
+    records into StackAdapt Data Hub. Recorded here for completeness because the name collides
+    with the outbound webhook surface above.
+- name: Pixel passbacks
+  graphql_field: 'Pixel.passbacks -> PixelPassbackConnection, Pixel.passbackValues'
+  direction: outbound
+  note: >-
+    Passback parameters returned when a pixel fires, configured as macro key/value pairs
+    (PixelPassbackInput). A server-to-server callback mechanism distinct from the webhook
+    subscription surface above.
+
+gaps:
+- No AsyncAPI document is published.
+- >-
+  No payload schema, signing/verification scheme, retry policy, delivery-ordering guarantee or
+  replay mechanism is publicly documented. docs.stackadapt.com disallows all crawlers, so if
+  StackAdapt documents any of these, it is not publicly readable.
+- >-
+  Only three event types exist, all creation/update notifications on campaigns and creatives.
+  There is no delivery, spend, budget-pacing, conversion or approval event, so an agent cannot
+  be driven by StackAdapt state changes — it must poll the reporting queries.

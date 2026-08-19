@@ -1,0 +1,45 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  Grounded in graphql/stackadapt-schema.graphql (the provider's own introspected SDL) and in
+  live probes of https://mcp.stackadapt.com/. StackAdapt publishes no OpenAPI and no
+  provider-authored AGENTS.md or skill files, so these are API Evangelist generated skills.
+  Every operation named in every skill was verified to exist verbatim on type Query or type
+  Mutation in the SDL before being written.
+
+grounding:
+  spec: graphql/stackadapt-schema.graphql
+  spec_type: GraphQL SDL
+  root_queries: 55
+  root_mutations: 97
+  openapi: none
+
+skills:
+- file: stackadapt-connect-agent-via-mcp.md
+  name: Connect an agent to StackAdapt over MCP
+  api: mcp/stackadapt-mcp.yml
+  operations: []
+  note: OAuth 2.1 discovery chain, probed live on 2026-08-13.
+
+- file: stackadapt-pull-campaign-performance.md
+  name: Pull campaign performance from StackAdapt
+  api: graphql/stackadapt-schema.graphql
+  operations: [tokenInfo, account, advertisers, campaignGroups, campaigns, campaign, campaignDelivery, campaignDeliveryAsync, campaignInsight, campaignGroupInsight, adDelivery, adDeliveryAsync, ads]
+
+- file: stackadapt-launch-and-control-a-campaign.md
+  name: Launch and control a StackAdapt campaign
+  api: graphql/stackadapt-schema.graphql
+  operations: [createAdvertiser, createCampaignGroup, upsertCampaign, createCreatives, upsertAd, upsertAdTag, pauseCampaigns, resumeCampaigns, archiveCampaigns, restoreCampaigns, copyCampaigns, campaigns, campaignGroups]
+
+- file: stackadapt-audiences-pixels-and-webhooks.md
+  name: Build StackAdapt audiences, pixels and event subscriptions
+  api: graphql/stackadapt-schema.graphql
+  operations: [createConversionPixel, createLookalikePixel, createRtSegment, createCrmSegment, createCrmSegmentWithPii, createIpCustomSegment, createLocationBasedCustomSegment, createAbmAudience, createNpiCustomSegment, createTopicAudienceCustomSegment, createProfileList, upsertProfiles, customSegments, audiences, createWebhook, updateWebhook, deleteWebhook, webhooks]
+
+cross_cutting_rules:
+- Check payload.userErrors on every mutation — validation failures ride inside a 200 OK.
+- There is no idempotency key; create* mutations are not safe to retry, upsert* are.
+- Environment is selected by hostname, not by a key prefix.
+- Campaign and Ad are GraphQL interfaces; branch on __typename.
+- MoneyValue and BigInt are strings; parse as decimal/bigint, never as a float.
+- 429 carries no Retry-After and no published threshold; choose your own backoff.

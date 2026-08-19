@@ -1,0 +1,141 @@
+generated: '2026-08-13'
+method: probed
+source: live GET probes of every apis.yml baseURL host, the docs host, the website host and the MCP host
+note: >-
+  Four real documents were served. StackAdapt publishes RFC 8414 OAuth 2.0 Authorization Server
+  Metadata on api.stackadapt.com, www.stackadapt.com and sandbox.stackadapt.com, and RFC 9728
+  OAuth 2.0 Protected Resource Metadata on mcp.stackadapt.com — the discovery chain a Model
+  Context Protocol client walks to authorize against the hosted MCP server. No security.txt,
+  no OpenID Connect discovery document, no api-catalog and no ai-plugin.json are served on any
+  host. api.stackadapt.com answers 200 with the application's HTML shell for /llms.txt and
+  /robots.txt; those are soft-200s, not documents, and are recorded as misses.
+
+hosts:
+- host: https://api.stackadapt.com
+  role: REST + GraphQL API host
+- host: https://www.stackadapt.com
+  role: website / OAuth authorization server for the MCP resource
+- host: https://mcp.stackadapt.com
+  role: hosted MCP server
+- host: https://sandbox.stackadapt.com
+  role: sandbox environment
+- host: https://docs.stackadapt.com
+  role: developer documentation
+
+documents:
+# --- hits ---
+- host: https://api.stackadapt.com
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  spec: RFC 8414
+  content_type: application/json
+  file: stackadapt-oauth-authorization-server.json
+- host: https://mcp.stackadapt.com
+  path: /.well-known/oauth-protected-resource
+  status: 200
+  spec: RFC 9728
+  content_type: application/json
+  file: stackadapt-oauth-protected-resource.json
+- host: https://sandbox.stackadapt.com
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  spec: RFC 8414
+  content_type: application/json
+  file: stackadapt-sandbox-oauth-authorization-server.json
+- host: https://www.stackadapt.com
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  spec: RFC 8414
+  content_type: application/json
+  file: null
+  note: >-
+    Identical document to the api.stackadapt.com one with the issuer rewritten to
+    https://www.stackadapt.com. This is the issuer named by the MCP protected-resource
+    metadata, so it is the authorization server an MCP client actually uses. Not saved
+    separately — it is byte-equivalent apart from the host.
+
+# --- misses ---
+- host: https://api.stackadapt.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://api.stackadapt.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://api.stackadapt.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+- host: https://api.stackadapt.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://api.stackadapt.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://api.stackadapt.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: https://api.stackadapt.com
+  path: /.well-known/agent.json
+  status: 404
+- host: https://api.stackadapt.com
+  path: /llms.txt
+  status: 200
+  hit: false
+  note: Returns the application HTML shell, not an llms.txt document. Soft-200 — recorded as a miss.
+- host: https://www.stackadapt.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://www.stackadapt.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://www.stackadapt.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://www.stackadapt.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://www.stackadapt.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: https://www.stackadapt.com
+  path: /.well-known/agent.json
+  status: 404
+- host: https://mcp.stackadapt.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://mcp.stackadapt.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: https://mcp.stackadapt.com
+  path: /.well-known/agent.json
+  status: 404
+- host: https://mcp.stackadapt.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: https://docs.stackadapt.com
+  path: /.well-known/agent.json
+  status: 404
+
+security_txt:
+  served: false
+  note: >-
+    No /.well-known/security.txt on any host. StackAdapt does publish a named security contact
+    (security@stackadapt.com) on its Trust and Security Center — see
+    security/stackadapt-vulnerability-disclosure.yml — but not as an RFC 9116 document.

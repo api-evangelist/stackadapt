@@ -1,0 +1,134 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  graphql/stackadapt-schema.graphql (1,147 types, introspected 2026-06-14), live 401/400
+  responses from https://api.stackadapt.com/graphql and https://mcp.stackadapt.com/,
+  https://www.stackadapt.com/llms.txt,
+  https://www.stackadapt.com/legal-document-centre/api-terms-and-conditions,
+  and https://github.com/StackAdapt/stackadapt-gtm-server-side-pixel
+docs: https://docs.stackadapt.com/
+note: >-
+  StackAdapt publishes no OpenAPI. These conventions are derived from the GraphQL SDL already
+  captured in this repo and from live observed responses. docs.stackadapt.com serves
+  "User-agent: * / Disallow: /", so the developer documentation was NOT crawled and nothing
+  below is quoted from it.
+
+authentication:
+  style: >-
+    Three distinct schemes on three surfaces. REST v2 uses an X-Authorization header API key.
+    GraphQL uses a bearer token (a separate key from the REST key). The hosted MCP server uses
+    OAuth 2.1 with RFC 9728 discovery. The server-to-server pixel uses a query-parameter pixel
+    identifier and no bearer credential.
+  detail: authentication/stackadapt-authentication.yml
+  scopes: scopes/stackadapt-scopes.yml
+
+idempotency:
+  supported: false
+  idempotency_key_header: null
+  scope: null
+  retention: null
+  what_exists:
+  - mechanism: upsert mutations
+    detail: >-
+      The GraphQL API exposes upsertAd, upsertAdTag, upsertCampaign, upsertLibraryAd,
+      upsertProfiles, upsertProfileMapping, upsertSnowflakeShare, upsertExternalAudienceMapping
+      and upsertFeedApiCatalogFile. Replaying an upsert against an existing identifier converges
+      on the same state, which is idempotent BY OPERATION SEMANTICS.
+  - mechanism: caller-supplied external identifiers
+    detail: >-
+      deleteProfilesWithExternalIds and upsertProfiles accept caller-owned external ids, so a
+      caller can key its own records.
+  - mechanism: clientMutationId
+    detail: >-
+      124 mutation inputs/payloads carry the Relay clientMutationId field. This is a request
+      CORRELATION identifier echoed back on the payload — it is not a deduplication key and
+      StackAdapt does not document any replay-suppression behaviour attached to it.
+  assessment: >-
+    There is NO idempotency-key contract. A client that retries createCampaign, createCreatives,
+    createConversionPixel or any other create* mutation after a timeout has no protocol-level
+    protection against creating a duplicate, and 62 of the 97 root mutations are create/delete/
+    archive-shaped rather than upsert-shaped. Recorded as unsupported; no Idempotency pointer is
+    emitted in apis.yml.
+
+pagination:
+  style: relay-cursor-connections
+  connection_types: 102
+  arguments: [first, last, after, before]
+  page_info_fields: [startCursor, endCursor, hasNextPage, hasPreviousPage]
+  extras:
+  - field: totalCount
+    detail: >-
+      116 connection types expose totalCount, which the Relay spec does not require. This is a
+      genuine ergonomic addition — a client can size a result set without walking it.
+  rest_pagination: unknown
+  note: Cursors are opaque strings; no page-number or offset access is exposed.
+
+field_selection:
+  style: graphql-native
+  detail: >-
+    Sparse fieldsets and expansion are the GraphQL selection set itself; there is no separate
+    ?fields= or ?expand= convention. Connections expose both edges and a nodes shortcut, so a
+    client can skip the edge wrapper when it does not need cursors.
+
+error_envelope:
+  graphql:
+    shape: '{"errors":[{"message": string, "extensions": {"traceId": string}}]}'
+    observed: >-
+      HTTP 401 from https://api.stackadapt.com/graphql with body
+      {"errors":[{"message":"Schema introspection requires authentication.","extensions":{"traceId":"..."}}]}
+    transport_status_used: true
+    note: >-
+      Unusually for GraphQL, StackAdapt uses real HTTP status codes (401, 400) rather than
+      returning 200 with an errors array. That is friendlier to agents and generic HTTP clients.
+  mutation_user_errors:
+    shape: 'payload.userErrors: [UserError!]!  where UserError = {message: String!, path: [String!]}'
+    detail: >-
+      Validation failures come back INSIDE a successful mutation payload as userErrors, not as
+      top-level errors. A client that only checks the errors array will silently miss failed
+      mutations. This is the single most important convention on this API.
+  mcp:
+    shape: '{"error": string, "error_description": string}'
+    observed: 'HTTP 401 {"error":"invalid_token","error_description":"Missing Authorization header"}'
+  rfc9457: false
+  detail: errors/stackadapt-error-codes.yml
+
+request_tracing:
+  mechanism: errors[].extensions.traceId
+  observed: '"traceId":"63602fa3e36adca613de5b276a750d35"'
+  response_header: null
+  note: >-
+    A 32-hex trace identifier is returned on GraphQL errors and is the identifier to quote to
+    StackAdapt support. It appears only on error responses observed anonymously; no
+    X-Request-Id response header was returned on any probe.
+
+versioning:
+  detail: lifecycle/stackadapt-lifecycle.yml
+  summary: >-
+    REST is URI-path versioned at /service/v2 and read-only. GraphQL is unversioned and,
+    per StackAdapt's own llms.txt, changes weekly.
+
+rate_limiting:
+  detail: rate-limits/stackadapt-rate-limits.yml
+  status_on_exhaustion: 429
+  response_headers: []
+  note: >-
+    No X-RateLimit-* or RateLimit-* headers were observed on any anonymous response, and no
+    numeric thresholds are published. The API Terms express the limit qualitatively:
+    clients must not "use an unreasonable amount of bandwidth, create an unreasonable number
+    of entities, objects, or records."
+
+conventions_notes:
+- The GraphQL API is the primary surface; REST v2 is read-only reporting and its write half is deprecated.
+- 'Async reporting is a first-class pattern: adDelivery/campaignDelivery/advertiserDelivery each have an *Async twin, and audience insights, contextual targeting, forecasting and topic suggestion are all schedule-then-poll (scheduleAudienceInsights, scheduleContextualTargeting, scheduleForecast, scheduleTopicSuggestion, profileMappingStatus, topicSuggestionStatus).'
+- 'Lifecycle verbs are explicit and symmetric across resources: archive/restore, pause/resume, applied to ads, campaigns and campaign groups.'
+- 'Scalars are typed rather than stringly: ISO8601Date, ISO8601DateTime, MoneyValue (a decimal string, e.g. "100.57"), BigInt (integers encoded as strings to survive 32-bit clients), Time.'
+- 'PII-handling is split at the schema level: several segment mutations ship in both a plain and a WithPii variant (createCrmSegment / createCrmSegmentWithPii, createIpCustomSegment / createIpCustomSegmentWithPii, createDeviceCustomSegment / createDeviceCustomSegmentWithPii), so the caller declares intent in the operation name.'
+
+cross_links:
+  authentication: authentication/stackadapt-authentication.yml
+  scopes: scopes/stackadapt-scopes.yml
+  errors: errors/stackadapt-error-codes.yml
+  lifecycle: lifecycle/stackadapt-lifecycle.yml
+  rate_limits: rate-limits/stackadapt-rate-limits.yml
+  data_model: data-model/stackadapt-data-model.yml
+  webhooks: asyncapi/stackadapt-webhooks.yml

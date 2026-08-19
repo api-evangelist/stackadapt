@@ -1,0 +1,10 @@
+{
+    "resource": "https://mcp.stackadapt.com/",
+    "authorization_servers": [
+        "https://www.stackadapt.com/"
+    ],
+    "scopes_supported": [
+        "graphql-public:read",
+        "graphql-public:write"
+    ]
+}

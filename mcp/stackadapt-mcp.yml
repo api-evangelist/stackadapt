@@ -1,0 +1,87 @@
+generated: '2026-08-13'
+method: probed
+status: published
+source: https://mcp.stackadapt.com/
+docs: https://www.stackadapt.com/llms.txt
+
+server:
+  name: stackadapt
+  transport: http
+  protocol: Streamable HTTP (JSON-RPC 2.0 over POST, MCP session via Mcp-Session-Id)
+  url: https://mcp.stackadapt.com/
+  backing_api: https://api.stackadapt.com/graphql
+
+deployment:
+  mode: remote
+  endpoint: https://mcp.stackadapt.com/
+  install: null
+  package: null
+  auth: oauth
+  verified: probed
+
+announcement:
+  generally_available: '2026-04-21'
+  source: https://www.businesswire.com/news/home/20260421122109/en/StackAdapt-Brings-Campaign-Intelligence-Into-Claude-and-Other-AI-Workflows-With-Launch-of-MCP-Server
+  summary: >-
+    StackAdapt announced general availability of its MCP Server on 2026-04-21, giving AI clients
+    conversational access to campaign configuration, performance metrics and creative assets across
+    CTV, display, native, audio, DOOH and programmatic linear TV. StackAdapt's own llms.txt
+    describes it as the integration that extends Ivy(TM) into Claude and other AI workflows.
+
+authorization:
+  model: OAuth 2.1 with RFC 9728 protected-resource discovery
+  protected_resource_metadata: https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+  authorization_server: https://www.stackadapt.com/
+  authorization_server_metadata: https://www.stackadapt.com/.well-known/oauth-authorization-server
+  dynamic_client_registration: https://www.stackadapt.com/oauth/register
+  scopes:
+  - graphql-public:read
+  - graphql-public:write
+  pkce: [S256, plain]
+  grant_types: [authorization_code, client_credentials, refresh_token]
+  challenge_observed: >-
+    WWW-Authenticate: Bearer error="invalid_token",
+    error_description="Missing Authorization header",
+    resource_metadata="https://mcp.stackadapt.com/.well-known/oauth-protected-resource/"
+
+tools:
+  status: gated
+  count: null
+  note: >-
+    tools/list and initialize both return HTTP 401 invalid_token without a bearer token, so the
+    live tool manifest and its inputSchemas require authenticated introspection. NO TOOL LIST IS
+    RECORDED HERE. StackAdapt does not publish a tool catalogue in its llms.txt or on any
+    crawlable page, and docs.stackadapt.com disallows all crawlers in robots.txt, so there is no
+    public source to fall back to. Capabilities are described in prose only (campaign
+    configuration, performance metrics, creative assets); those are not tools and are not
+    recorded as such.
+
+x-evidence:
+- fetched: '2026-08-13'
+  url: https://mcp.stackadapt.com/
+  method: GET
+  http_status: 401
+  body: '{"error":"invalid_token","error_description":"Missing Authorization header"}'
+- fetched: '2026-08-13'
+  url: https://mcp.stackadapt.com/
+  method: POST tools/list
+  http_status: 401
+- fetched: '2026-08-13'
+  url: https://mcp.stackadapt.com/.well-known/oauth-protected-resource
+  method: GET
+  http_status: 200
+  content_type: application/json
+- fetched: '2026-08-13'
+  url: https://mcp.stackadapt.com/mcp
+  method: GET
+  http_status: 404
+  note: The MCP endpoint is the host ROOT, not /mcp. Recorded so a later run does not re-guess.
+
+third_party_servers:
+- name: aymanshaikh/stackadapt-mcp
+  url: https://glama.ai/mcp/servers/aymanshaikh/stackadapt-mcp
+  official: false
+  note: >-
+    Community-built stdio MCP server wrapping the StackAdapt GraphQL API. NOT first-party and NOT
+    counted as a StackAdapt agent surface. Recorded only so it is not mistaken for the official
+    hosted server in a later pass.

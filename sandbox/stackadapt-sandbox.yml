@@ -1,0 +1,66 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live probes of https://sandbox.stackadapt.com/ and its OAuth discovery document, plus
+  https://www.stackadapt.com/llms.txt
+note: >-
+  StackAdapt runs a real, separately-issued sandbox environment. What it does NOT publish is
+  any test data: no test card numbers, no magic identifiers, no fixture tooling, no test clocks
+  and no seeded advertiser. docs.stackadapt.com disallows all crawlers, so if such values are
+  documented they are not publicly readable. NO TEST VALUES ARE RECORDED HERE — none were found,
+  and none are invented.
+
+environments:
+- name: production
+  host: https://api.stackadapt.com
+  graphql: https://api.stackadapt.com/graphql
+  rest: https://api.stackadapt.com/service/v2
+  oauth_issuer: https://api.stackadapt.com
+  verified: probed
+- name: sandbox
+  host: https://sandbox.stackadapt.com
+  oauth_issuer: https://sandbox.stackadapt.com
+  oauth_metadata: https://sandbox.stackadapt.com/.well-known/oauth-authorization-server
+  verified: probed
+  evidence:
+  - {url: 'https://sandbox.stackadapt.com/', http_status: 200, fetched: '2026-08-13'}
+  - {url: 'https://sandbox.stackadapt.com/.well-known/oauth-authorization-server', http_status: 200, content_type: application/json, fetched: '2026-08-13'}
+
+environment_separation:
+  mechanism: host
+  detail: >-
+    Environment is selected by HOSTNAME, not by a key prefix or a mode flag. A caller on
+    sandbox.stackadapt.com is in sandbox; a caller on api.stackadapt.com is in production.
+  key_prefixes: none
+  note: >-
+    StackAdapt API keys carry no test/live prefix, so a key alone does not tell a client (or an
+    agent) which environment it is about to write to. The only signal is the base URL. This is
+    the opposite of the prefix convention used by Stripe-style APIs and is worth calling out in
+    any agent skill that performs writes.
+  oauth_isolation: >-
+    Sandbox publishes its own OAuth issuer (issuer: https://sandbox.stackadapt.com) with its own
+    authorize/token/register/revoke/introspect endpoints, so production tokens and registered
+    clients are not portable into sandbox.
+
+access:
+  self_serve: false
+  how_to_get: >-
+    API access is requested rather than self-provisioned — https://www.stackadapt.com/get-started-with-api
+    is the public entry point and StackAdapt issues the keys. The GraphQL key is separate from
+    the legacy REST key.
+  request_url: https://www.stackadapt.com/get-started-with-api
+
+test_data:
+  test_cards: []
+  magic_identifiers: []
+  test_clocks: false
+  fixtures: false
+  triggers: false
+  note: None published. Empty is the measured result, not an omission.
+
+mcp_sandbox:
+  available: unknown
+  note: >-
+    No mcp.sandbox.stackadapt.com or sandbox-scoped MCP resource was found. The hosted MCP
+    server's protected-resource metadata names only https://mcp.stackadapt.com/ as the resource
+    and https://www.stackadapt.com/ as the authorization server, both production.
