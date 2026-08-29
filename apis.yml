@@ -4,6 +4,17 @@ description: StackAdapt is an AI-powered programmatic advertising platform with 
   and GraphQL APIs for managing campaigns, ad groups, creatives, targeting segments,
   pixel tracking, and performance reporting across native, display, video, connected
   TV, audio, and digital out-of-home channels.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: unknown
