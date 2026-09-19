@@ -92,6 +92,14 @@ apis:
   - GraphQL
   - Campaigns
   - Ad Groups
+  - Creative
+  - Targeting
+  - Segments
+  - Reporting
+  tags_raw:
+  - GraphQL
+  - Campaigns
+  - Ad Groups
   - Creatives
   - Targeting
   - Segments
