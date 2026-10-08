@@ -84,3 +84,39 @@ notes:
   - "Pricing varies by campaign budget, ad formats, and service level"
   - "Minimum monthly spend recommended for programmatic scale"
   - "Self-serve users can transition to managed services as needs evolve"
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Basic
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Grow (Bronze)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Scale (Silver)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Accelerate (Gold)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise (Platinum)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
