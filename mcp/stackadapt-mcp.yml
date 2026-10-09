@@ -82,3 +82,17 @@ third_party_servers:
   note: Community-built stdio MCP server wrapping the StackAdapt GraphQL API. NOT first-party and NOT
     counted as a StackAdapt agent surface. Recorded only so it is not mistaken for the official hosted
     server in a later pass.
+rfc9728:
+  endpoint: https://mcp.stackadapt.com/
+  metadata_url: https://mcp.stackadapt.com/.well-known/oauth-protected-resource/
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.stackadapt.com/
+    authorization_servers:
+    - https://www.stackadapt.com/
+    scopes_supported:
+    - graphql-public:read
+    - graphql-public:write
