@@ -1,0 +1,74 @@
+generated: '2026-10-14'
+method: searched
+checked:
+- https://hightouch.com/docs/destinations/stackadapt
+- https://vendor-list.consensu.org/v3/vendor-list.json
+marketplace_apps: []
+edges:
+- partner_name: IAB Europe TCF Global Vendor List
+  partner: null
+  partner_match: domain
+  type: contract
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://vendor-list.consensu.org/v3/vendor-list.json
+  contract_reference:
+    register: IAB Europe TCF Global Vendor List
+    spec_file: null
+    role: tcf-vendor
+    registered_name: StackAdapt Inc.
+    register_id: '238'
+    products:
+    - StackAdapt Inc.
+    matched_domain: stackadapt.com
+    api_families:
+    - feature-1
+    - feature-2
+    - feature-3
+    - purpose-1
+    - purpose-10
+    - purpose-11
+    - purpose-2
+    - purpose-3
+    - purpose-4
+    - purpose-5
+    - purpose-6
+    - purpose-7
+    - purpose-8
+    - purpose-9
+    - special-feature-1
+    - special-feature-2
+    - special-purpose-1
+    - special-purpose-2
+    - special-purpose-3
+    api_families_basis: TCF purposes, special purposes, features and special features declared on the registration
+    detected_by: sweep-adtech.py
+    detected: '2026-10-14'
+  detected_by: sweep-adtech.py
+  detected: '2026-10-14'
+- partner_name: Hightouch
+  partner: hightouch
+  partner_match: aggregator
+  marketplace: coverage
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: connector-coverage
+  evidence: https://hightouch.com/docs/destinations/stackadapt
+  coverage_role:
+  - destination
+  cdp_signals:
+    destination:
+      catalog_entries:
+      - stackadapt
+      status: released
+      sync_types:
+      - CRM Segments
+      - Device Audience
+      - Pixel API
+      sync_modes:
+      - add
+  detected_by: sweep-cdp.py
+  first_seen: '2026-10-14'
+source: https://hightouch.com/docs/destinations/stackadapt
