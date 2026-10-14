@@ -3,8 +3,33 @@ method: searched
 checked:
 - https://hightouch.com/docs/destinations/stackadapt
 - https://vendor-list.consensu.org/v3/vendor-list.json
+- okta/integrations/okta-integration-edges.yml
 marketplace_apps: []
 edges:
+- partner_name: Hightouch
+  partner: hightouch
+  partner_match: aggregator
+  marketplace: coverage
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: connector-coverage
+  evidence: https://hightouch.com/docs/destinations/stackadapt
+  coverage_role:
+  - destination
+  cdp_signals:
+    destination:
+      catalog_entries:
+      - stackadapt
+      status: released
+      sync_types:
+      - CRM Segments
+      - Device Audience
+      - Pixel API
+      sync_modes:
+      - add
+  detected_by: sweep-cdp.py
+  first_seen: '2026-10-14'
 - partner_name: IAB Europe TCF Global Vendor List
   partner: null
   partner_match: domain
@@ -47,28 +72,28 @@ edges:
     detected: '2026-10-14'
   detected_by: sweep-adtech.py
   detected: '2026-10-14'
-- partner_name: Hightouch
-  partner: hightouch
-  partner_match: aggregator
-  marketplace: coverage
+- partner_name: Okta (own)
+  partner: okta
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
   channel: partner-built
-  direction: partner-built
-  type: coverage
-  relationship: connector-coverage
-  evidence: https://hightouch.com/docs/destinations/stackadapt
-  coverage_role:
-  - destination
-  cdp_signals:
-    destination:
-      catalog_entries:
-      - stackadapt
-      status: released
-      sync_types:
-      - CRM Segments
-      - Device Audience
-      - Pixel API
-      sync_modes:
-      - add
-  detected_by: sweep-cdp.py
-  first_seen: '2026-10-14'
+  marketplace: own
+  evidence: https://www.okta.com/integrations/stackadapt/
+  mirror_of: okta/integrations/okta-integration-edges.yml
+  apps:
+  - StackAdapt
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Single Sign-On
+  badges:
+  - OKTA_VERIFIED
+  features:
+  - CREATE
+  - DEACTIVATE
+  - OIDC
+  - UPDATE
 source: https://hightouch.com/docs/destinations/stackadapt
