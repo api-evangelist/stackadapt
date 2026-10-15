@@ -4,6 +4,7 @@ checked:
 - https://hightouch.com/docs/destinations/stackadapt
 - https://vendor-list.consensu.org/v3/vendor-list.json
 - okta/integrations/okta-integration-edges.yml
+- shopify/integrations/shopify-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Hightouch
@@ -96,4 +97,20 @@ edges:
   - DEACTIVATE
   - OIDC
   - UPDATE
+- partner_name: Shopify (own)
+  partner: shopify
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://apps.shopify.com/stackadapt
+  mirror_of: shopify/integrations/shopify-integration-edges.yml
+  apps:
+  - StackAdapt
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
 source: https://hightouch.com/docs/destinations/stackadapt
