@@ -106,5 +106,5 @@
     - connectors/applications/stackadapt-graphql
     vendor_link: https://www.stackadapt.com/
     builder: Fivetran
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
