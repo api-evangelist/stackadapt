@@ -1,5 +1,11 @@
-generated: '2026-10-14'
+generated: '2026-10-20'
 method: searched
+source:
+- https://hightouch.com/docs/destinations/stackadapt
+- https://zapier.com/apps/stackadapt/integrations
+- https://n8n.io/integrations/stackadapt/
+- https://composio.dev/toolkits/stackadapt
+- https://monid.ai/tools/stackadapt
 checked:
 - https://api.nuget.org/v3
 - https://crates.io/api/v1
@@ -14,32 +20,13 @@ checked:
 - https://vendor-list.consensu.org/v3/vendor-list.json
 - okta/integrations/okta-integration-edges.yml
 - shopify/integrations/shopify-integration-edges.yml
+- https://composio.dev/toolkits/stackadapt
+- https://monid.ai/tools/stackadapt
+- https://n8n.io/integrations/stackadapt/
+- https://zapier.com/apps/stackadapt/integrations
+summary: null
 marketplace_apps: []
 edges:
-- partner_name: Hightouch
-  partner: hightouch
-  partner_match: aggregator
-  marketplace: coverage
-  channel: partner-built
-  direction: partner-built
-  type: coverage
-  relationship: connector-coverage
-  evidence: https://hightouch.com/docs/destinations/stackadapt
-  coverage_role:
-  - destination
-  cdp_signals:
-    destination:
-      catalog_entries:
-      - stackadapt
-      status: released
-      sync_types:
-      - CRM Segments
-      - Device Audience
-      - Pixel API
-      sync_modes:
-      - add
-  detected_by: sweep-cdp.py
-  first_seen: '2026-10-14'
 - partner_name: IAB Europe TCF Global Vendor List
   partner: null
   partner_match: domain
@@ -122,32 +109,6 @@ edges:
   listing_count: 1
   detected: '2026-10-15'
   detected_by: mirror-platform-listings.py
-- partner_name: Fivetran
-  partner: fivetran
-  partner_match: aggregator
-  type: marketplace
-  marketplace: fivetran-connectors
-  channel: elt-connector
-  relationship: ipaas-bridge
-  direction: third-party
-  evidence: https://fivetran.com/docs/connectors/applications/stackadapt-graphql
-  category: null
-  contract_reference:
-    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
-    spec_file: null
-    role: elt-connector:fivetran
-    registered_name: StackAdapt
-    matched_domain: stackadapt.com
-    matched_by: domain
-    detected_by: sweep-data-integration.py
-    detected: '2026-10-18'
-    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
-    connector_paths:
-    - connectors/applications/stackadapt-graphql
-    vendor_link: https://www.stackadapt.com/
-    builder: Fivetran
-  detected_by: sweep-data-integration.py
-  first_seen: '2026-10-18'
 - partner_name: npm registry
   partner: npm
   partner_match: register
@@ -178,4 +139,54 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-official-sdks.py
   first_seen: '2026-10-18'
-source: https://hightouch.com/docs/destinations/stackadapt
+- partner_name: Hightouch
+  partner: hightouch
+  partner_match: aggregator
+  marketplace: coverage
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: connector-coverage
+  evidence: https://hightouch.com/docs/destinations/stackadapt
+  coverage_role:
+  - destination
+  cdp_signals:
+    destination:
+      catalog_entries:
+      - stackadapt
+      status: released
+      sync_types:
+      - CRM Segments
+      - Device Audience
+      - Pixel API
+      sync_modes:
+      - add
+  detected_by: sweep-cdp.py
+  first_seen: '2026-10-14'
+- partner_name: Fivetran
+  partner: fivetran
+  partner_match: aggregator
+  type: marketplace
+  marketplace: fivetran-connectors
+  channel: elt-connector
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://fivetran.com/docs/connectors/applications/stackadapt-graphql
+  category: null
+  contract_reference:
+    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
+    spec_file: null
+    role: elt-connector:fivetran
+    registered_name: StackAdapt
+    matched_domain: stackadapt.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    connector_paths:
+    - connectors/applications/stackadapt-graphql
+    vendor_link: https://www.stackadapt.com/
+    builder: Fivetran
+  detected_by: sweep-data-integration.py
+  first_seen: '2026-10-18'
+templates: []
